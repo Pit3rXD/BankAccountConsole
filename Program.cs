@@ -166,6 +166,7 @@ namespace BankAccountConsole
                                 catch (InsufficientFundsException)
                                 {
                                     Console.WriteLine("Error: Insufficient funds in the account.");
+                                    //Add InsufficientFundsException handling 
                                 }
                             }
                             else
@@ -183,13 +184,14 @@ namespace BankAccountConsole
                         break;
                     
                     case "5":
-                        Console.WriteLine("===  Thank you for using BankAccountConsole. Goodbey!  === ");
+                        Console.WriteLine("===  Thank you for using BankAccountConsole. Goodbye!  === ");
                         Thread.Sleep(1500);
                         Environment.Exit(0);
                         break;
                 }
                 Console.ReadKey();
             }
+
         }
     }
 }
