@@ -74,18 +74,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountDataService.cs" />
     <Compile Include="AuthService.cs" />
-    <Compile Include="BankAccount.cs" />
     <Compile Include="DepositService.cs" />
     <Compile Include="InsufficientFundsException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transaction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BankAccountLibrary\BankAccountLibrary.csproj">
+      <Project>{5ca6590b-c1f5-4d6f-b80a-bdac80cb163c}</Project>
+      <Name>BankAccountLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

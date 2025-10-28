@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Xml.Schema;
+﻿using System.Text.Json.Serialization;
+using BankAccountLibrary.Models;
 
-namespace BankAccountConsole
+namespace BankAccountLibrary.Models
 {
-    internal class BankAccount
+    public class BankAccount
     {
         public BankAccount(string ownerName, string username, string password)
         {
@@ -26,10 +22,6 @@ namespace BankAccountConsole
             OwnerName = ownerName;
             Username = username;
             _password = password;
-
-            int seed = AccountDataService.LoadAccountNumberSeed();
-            AccountNumber = "PL" + seed.ToString();
-            AccountDataService.SaveAccountNumberSeed(seed + 1);
 
             Balance = 0;
         }
@@ -64,7 +56,7 @@ namespace BankAccountConsole
                     _transactions = new List<Transaction>();
                 }
             }
-               
+
         }
 
         private static int _accountNumberSeed = 10000000;
@@ -88,6 +80,9 @@ namespace BankAccountConsole
         {
             return $"{Username} ({OwnerName})";
         }
-        
+        public void  SetAccountNumber(string accountNumber)
+        {
+            AccountNumber = accountNumber;
+        }
     }
 }

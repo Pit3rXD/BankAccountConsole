@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Text.Json;
 using System.IO;
-using System.Text.Json;
+using BankAccountLibrary.Models;
 
-namespace BankAccountConsole
+namespace BankAccountLibrary.Models
 {
-    internal class AccountDataService
+    public class AccountDataService
     {
         private static readonly string _filePath = "account.json";
         private static readonly string _seedPath = "accountSeed.txt";
@@ -48,7 +48,7 @@ namespace BankAccountConsole
             };
             try
             {
-                List<BankAccount> accounts = JsonSerializer.Deserialize<List<BankAccount>>(json, options);
+                List<BankAccount> accounts = JsonSerializer.Deserialize<List<BankAccount>>(json, options) ?? new List<BankAccount>();
                 if (accounts == null)
                 {
                     return new List<BankAccount>();
@@ -60,6 +60,5 @@ namespace BankAccountConsole
                 return new List<BankAccount>();
             }
         }
-
     }
 }

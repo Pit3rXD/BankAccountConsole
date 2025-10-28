@@ -1,0 +1,24 @@
+﻿<Page
+    x:Class="BankAccountUWP.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BankAccountUWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Width="300" Spacing="12">
+            <TextBlock Text="Login" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBox PlaceholderText="User name" x:Name="UsernameTextBox"/>
+            <PasswordBox PlaceholderText="Password" x:Name="PasswordBox"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,0" Spacing="8">
+                <Button Content="Login" Margin=" 0,12,0,0" x:Name="LoginButton"/>
+                <Button Content="Register" Margin="0,12,0,0" x:Name="RegisterButton"/>
+            </StackPanel>
+            <Button Content="Return" Click="BackButton_Click"/>
+            <TextBlock x:Name="ErrorTextBlock" Foreground="Red" Visibility="Collapsed"/>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using BankAccountUWP.Services;
+using System.Threading.Tasks;
 
-namespace BankAccountConsole
+
+namespace BankAccountUWP.Services
 {
     internal class AuthService
     {
-        private List<BankAccount> _registeredAccounts;
+        private List<BankAccount> _registeredAccounts = new();
 
         public AuthService() 
         {
