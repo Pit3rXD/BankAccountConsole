@@ -1,22 +1,16 @@
-﻿using System;
+﻿using BankAccountLibrary.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
-using System.IO;
-using System.Security.Policy;
 using System.Threading;
 
 namespace BankAccountConsole
 {
     internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var authService = new AuthService();
             BankAccount currentUser = null;
-
 
             while (true)
             {
@@ -95,7 +89,8 @@ namespace BankAccountConsole
                 }
             }
         }
-        static void ShowLoggedInMenu(BankAccount user)
+
+        private static void ShowLoggedInMenu(BankAccount user)
         {
             while (true)
             {
@@ -181,7 +176,7 @@ namespace BankAccountConsole
                             Console.WriteLine($"{element.Date:g} | {element.Type} | {element.Amount:N2} PLN");
                         }
                         break;
-                    
+
                     case "5":
                         Console.WriteLine("===  Thank you for using BankAccountConsole. Goodbye!  === ");
                         Thread.Sleep(1500);
@@ -193,4 +188,3 @@ namespace BankAccountConsole
         }
     }
 }
-

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
@@ -14,9 +14,16 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <Compile Remove="Models\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Models\**" />
+    <Page Remove="Models\**" />
   </ItemGroup>
   <ItemGroup>
+    <PRIResource Remove="Models\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BankAccountConsole.csproj" />
     <ProjectReference Include="..\BankAccountLibrary\BankAccountLibrary.csproj" />
   </ItemGroup>
 </Project>
