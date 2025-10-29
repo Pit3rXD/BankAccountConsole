@@ -1,4 +1,4 @@
-﻿using BankAccountLibrary.Models; 
+﻿using System;
 
 namespace BankAccountLibrary.Models
 {
@@ -7,6 +7,7 @@ namespace BankAccountLibrary.Models
         Deposit,
         Withdrawal
     }
+
     public class Transaction
     {
         public decimal Amount { get; set; }

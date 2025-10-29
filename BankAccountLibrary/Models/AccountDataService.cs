@@ -1,6 +1,6 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Generic;
 using System.IO;
-using BankAccountLibrary.Models;
+using System.Text.Json;
 
 namespace BankAccountLibrary.Models
 {
@@ -8,10 +8,7 @@ namespace BankAccountLibrary.Models
     {
         private static readonly string _filePath = "account.json";
         private static readonly string _seedPath = "accountSeed.txt";
-        public static void SaveAccountNumberSeed(int seed)
-        {
-            File.WriteAllText(_seedPath, seed.ToString());
-        }
+
         public static int LoadAccountNumberSeed()
         {
             if (File.Exists(_seedPath))
@@ -23,16 +20,6 @@ namespace BankAccountLibrary.Models
                 }
             }
             return 10000000;
-        }
-        public static void SaveAccounts(List<BankAccount> accounts)
-        {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                PropertyNamingPolicy = null
-            };
-            string json = JsonSerializer.Serialize(accounts, options);
-            File.WriteAllText(_filePath, json);
         }
 
         public static List<BankAccount> LoadAccounts()
@@ -59,6 +46,22 @@ namespace BankAccountLibrary.Models
             {
                 return new List<BankAccount>();
             }
+        }
+
+        public static void SaveAccountNumberSeed(int seed)
+        {
+            File.WriteAllText(_seedPath, seed.ToString());
+        }
+
+        public static void SaveAccounts(List<BankAccount> accounts)
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                PropertyNamingPolicy = null
+            };
+            string json = JsonSerializer.Serialize(accounts, options);
+            File.WriteAllText(_filePath, json);
         }
     }
 }
