@@ -23,7 +23,6 @@
     <PRIResource Remove="Models\**" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BankAccountConsole.csproj" />
     <ProjectReference Include="..\BankAccountLibrary\BankAccountLibrary.csproj" />
   </ItemGroup>
 </Project>

@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace BankAccountConsole
+namespace BankAccountLibrary.Services
 {
-    internal class AuthService
+    public class AuthService
     {
-        private List<BankAccount> _registeredAccounts = new();
+        private List<BankAccount> _registeredAccounts = new List<BankAccount>();
 
         public AuthService()
         {

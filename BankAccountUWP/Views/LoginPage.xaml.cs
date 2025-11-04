@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BankAccountLibrary.Services;
+using BankAccountUWP.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,14 +20,14 @@ using Windows.UI.Xaml.Navigation;
 
 namespace BankAccountUWP.Views
 {
-    /// <summary>
-    /// Pusta strona, która może być używana samodzielnie lub do której można nawigować wewnątrz ramki.
-    /// </summary>
     public sealed partial class LoginPage : Page
     {
         public LoginPage()
         {
-            this.InitializeComponent();
+            var authService = new AuthService();
+            var viewmodel = new LoginPageViewModel(authService);
+            DataContext = viewmodel;
+            InitializeComponent();
         }
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
