@@ -22,11 +22,6 @@
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="BankAccountLibrary\Class1.cs" />
-    <Compile Remove="BankAccountLibrary\Models\AccountDataService.cs" />
-    <Compile Remove="BankAccountLibrary\Models\BankAccount.cs" />
-    <Compile Remove="BankAccountLibrary\Models\Transaction.cs" />
-    <Compile Remove="BankAccountLibrary\obj\Debug\netstandard2.0\.NETStandard,Version=v2.0.AssemblyAttributes.cs" />
     <Compile Remove="BankAccountUWP\App.xaml.cs" />
     <Compile Remove="BankAccountUWP\Helpers\RelayCommand.cs" />
     <Compile Remove="BankAccountUWP\MainPage.xaml.cs" />
@@ -49,6 +44,6 @@
     <Compile Remove="BankAccountUWP\Views\RegisterPage.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="BankAccountLibrary\BankAccountLibrary.csproj" />
+    <ProjectReference Include="..\BankAccountLibrary\BankAccountLibrary.csproj" />
   </ItemGroup>
 </Project>
