@@ -21,9 +21,9 @@ namespace BankAccountUWP.ViewModels
 
         public MainMenuViewModel()
         {
-            LoginCommand = new RelayCommand(_ => OnLogin());
-            RegisterCommand = new RelayCommand(_ => OnRegister());
-            ExitCommand = new RelayCommand(_ => OnExit());
+            LoginCommand = new RelayCommand(OnLogin);
+            RegisterCommand = new RelayCommand(OnRegister);
+            ExitCommand = new RelayCommand(OnExit);
         }
         private void OnLogin() => LoginRequested?.Invoke();
         private void  OnRegister() => RegisterRequested?.Invoke();

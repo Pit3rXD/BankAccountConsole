@@ -1,44 +1,39 @@
 ﻿using BankAccountLibrary.Services;
 using BankAccountUWP.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Security.Cryptography.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-//Szablon elementu Pusta strona jest udokumentowany na stronie https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace BankAccountUWP.Views
 {
     public sealed partial class LoginPage : Page
     {
+        private readonly LoginPageViewModel vm;
+
         public LoginPage()
         {
-            var authService = new AuthService();
-            var viewmodel = new LoginPageViewModel(authService);
-            DataContext = viewmodel;
             InitializeComponent();
+            var authService = new AuthService();
+            vm = new LoginPageViewModel(authService);
+            DataContext = vm;
+            PasswordBox.PasswordChanged += PasswordBox_PasswordChanged;
+            LoginButton.Click += (s, e) => vm.LoginClicked.Execute(null);
         }
+
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            if(Frame.CanGoBack)
+            if (Frame.CanGoBack)
             {
                 Frame.GoBack();
             }
-            else 
+            else
             {
                 Frame.Navigate(typeof(MainMenuPage));
             }
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            vm.Password = PasswordBox.Password;
         }
     }
 }
