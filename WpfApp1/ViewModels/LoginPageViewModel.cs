@@ -1,22 +1,26 @@
-﻿
-using BankAccountLibrary.Services;
-using CommunityToolkit.Mvvm.Input;
+﻿using BankAccountLibrary.Services;
+using BankAccountUWP.Helpers;
 using System.Windows.Input;
 
-namespace BankAccountUWP.ViewModels
+namespace WpfApp1.ViewModels
 {
     public class LoginPageViewModel
     {
         private readonly AuthService authService;
-        public string Username { get; set; }
+        public ICommand LoginClicked { get; }
+
         public string Password { get; set; }
 
-        public ICommand LoginClicked { get; }
+        public string Username
+        {
+            get;
+            set;
+        }
 
         public LoginPageViewModel(AuthService authService)
         {
             this.authService = authService;
-            LoginClicked = new RelayCommand(OnLoginClicked);
+            LoginClicked = new RelayCommand((_) => OnLoginClicked());
         }
 
         private void OnLoginClicked()
