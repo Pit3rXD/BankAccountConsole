@@ -4,9 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
+
 namespace BankAccountConsole
 {
-    internal class Program
+    public class Program
     {
         private static void Main(string[] args)
         {

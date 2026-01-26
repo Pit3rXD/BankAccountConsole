@@ -1,7 +1,7 @@
 ﻿using BankAccountLibrary.Models;
 using System;
 
-namespace BankAccountConsole
+namespace BankAccountCore
 {
     internal class DepositService
     {

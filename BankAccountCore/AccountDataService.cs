@@ -2,7 +2,11 @@
 using System.IO;
 using System.Text.Json;
 
+<<<<<<<< HEAD:BankAccountLibrary/Models/AccountDataService.cs
 namespace BankAccountLibrary.Models
+========
+namespace BankAccountCore
+>>>>>>>> Implemented MVVM pattern in the project and intergrated WPF components.:BankAccountCore/AccountDataService.cs
 {
     public class AccountDataService
     {

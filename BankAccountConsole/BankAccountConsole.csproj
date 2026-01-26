@@ -44,6 +44,9 @@
     <Compile Remove="BankAccountUWP\Views\RegisterPage.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ikona fiuta.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\BankAccountLibrary\BankAccountLibrary.csproj" />
   </ItemGroup>
 </Project>
