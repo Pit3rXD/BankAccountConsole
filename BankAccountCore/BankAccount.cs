@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Xml.Schema;
 
-namespace BankAccountConsole
+namespace BankAccountCore
 {
-    internal class BankAccount
+    public class BankAccount
     {
         public BankAccount(string ownerName, string username, string password)
         {

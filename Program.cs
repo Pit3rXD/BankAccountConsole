@@ -8,9 +8,10 @@ using System.IO;
 using System.Security.Policy;
 using System.Threading;
 
+
 namespace BankAccountConsole
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {

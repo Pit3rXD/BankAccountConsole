@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace BankAccountConsole
+namespace BankAccountCore
 {
-    internal enum TransactionType 
+    public enum TransactionType 
     { 
         Deposit, 
         Withdrawal 
     }
-    internal class Transaction
+    public class Transaction
     {
         public decimal Amount {  get; set; }
         public DateTime Date {  get; set; } 

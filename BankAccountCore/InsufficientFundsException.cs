@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankAccountConsole
+namespace BankAccountCore
 {
-    internal class InsufficientFundsException : Exception
+    public class InsufficientFundsException : Exception
     {
         public InsufficientFundsException() : base("Insufficient funds") { }
     }

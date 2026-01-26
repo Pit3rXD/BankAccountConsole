@@ -2,9 +2,9 @@
 using System.IO;
 using System.Text.Json;
 
-namespace BankAccountConsole
+namespace BankAccountCore
 {
-    internal class AccountDataService
+    public class AccountDataService
     {
         private static readonly string _filePath = "account.json";
         private static readonly string _seedPath = "accountSeed.txt";

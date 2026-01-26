@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BankAccountConsole
+namespace BankAccountCore
 {
-    internal class AuthService
+    public class AuthService
     {
         private List<BankAccount> _registeredAccounts;
 

@@ -74,18 +74,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountDataService.cs" />
-    <Compile Include="AuthService.cs" />
-    <Compile Include="BankAccount.cs" />
-    <Compile Include="DepositService.cs" />
-    <Compile Include="InsufficientFundsException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transaction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="BankAccountCore\BankAccountCore.csproj">
+      <Project>{1d5c542e-f3ee-4172-9382-494341c908da}</Project>
+      <Name>BankAccountCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

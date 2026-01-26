@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+   <LangVersion>9.0</LangVersion> 
+  </PropertyGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.5" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Buffers" Version="4.5.1" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.IO.Pipelines" Version="9.0.5" />
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="9.0.5" />
+    <PackageReference Include="System.Text.Json" Version="9.0.5" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="BankAccountUWP\App.xaml.cs" />
+    <Compile Remove="BankAccountUWP\Helpers\RelayCommand.cs" />
+    <Compile Remove="BankAccountUWP\MainPage.xaml.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\.NETCoreApp,Version=v9.0.AssemblyAttributes.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\App.g.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\App.g.i.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\BankAccountUWP.AssemblyInfo.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\MainPage.g.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\MainPage.g.i.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\Views\LoginPage.g.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\Views\LoginPage.g.i.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\Views\MainMenuPage.g.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\Views\MainMenuPage.g.i.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\Views\RegisterPage.g.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\Views\RegisterPage.g.i.cs" />
+    <Compile Remove="BankAccountUWP\obj\x64\Debug\net9.0-windows10.0.26100.0\XamlTypeInfo.g.cs" />
+    <Compile Remove="BankAccountUWP\ViewModels\MainMenuViewModel.cs" />
+    <Compile Remove="BankAccountUWP\Views\LoginPage.xaml.cs" />
+    <Compile Remove="BankAccountUWP\Views\MainMenuPage.xaml.cs" />
+    <Compile Remove="BankAccountUWP\Views\RegisterPage.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ikona fiuta.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BankAccountLibrary\BankAccountLibrary.csproj" />
+  </ItemGroup>
+</Project>
