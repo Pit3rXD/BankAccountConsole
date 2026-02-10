@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using WpfBankAccount.Navigation;
 
 namespace WpfBankAccount.ViewModels
 {
@@ -10,8 +11,8 @@ namespace WpfBankAccount.ViewModels
         private string _userName;
         private string _password;
         private string _errorMessage;
-        private AuthService _authService;
-        private readonly Action<object> _navigate;
+        private readonly IAuthService _authService;
+        private readonly INavigationService _navigationService;
 
         public string Username
         {
@@ -46,28 +47,27 @@ namespace WpfBankAccount.ViewModels
         public ICommand LoginCommand { get; }
         public ICommand RegisterCommand { get; }
 
-        public LoginViewModel(Action<object> navigate)
+        public LoginViewModel(INavigationService navigationService, IAuthService authService)
         {
-            _authService = new AuthService();
-            _navigate = navigate;
+            _authService = authService;
+            _navigationService = navigationService;
 
             LoginCommand = new RelayCommand(Login, CanLogin);
             RegisterCommand = new RelayCommand(Register, CanRegister);
         }
-
         private void Login(object parameter)
         {
             try
             {
                 string password = parameter as string ?? Password;
                 var account = _authService.Login(Username, password);
-                ErrorMessage = $"Welcome {account.OwnerName}, login successgul!";
-                _navigate(new MenuViewModel(_navigate, account)); // czy to usunąć?
-                // LoiginViewModel zna przez to MenuWiewModel i tworzy koleny VM
+                ErrorMessage = $"Welcome {account.OwnerName}, login successful!";
+                _navigationService.NavigateTo(ViewType.Menu, account);
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = ex.Message; /// Zająć się łapaniem konkretnych wyjątków
+                                           /// najlepiej  mapować na komunikaty UI
             }
         }
         private void Register(object parameter)

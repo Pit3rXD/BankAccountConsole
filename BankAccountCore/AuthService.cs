@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 
 namespace BankAccountCore
-{
-    public class AuthService
+{   
+    /// <summary>
+    /// Stworzyć interfejs dla tej klasy, aby dało się testować bez zapisywania do JSON
+    /// IAccountRepository - Pobiera List<BankAccount> Load();  
+    /// i zwraca void Save(List<BankAccount> account);
+    /// </summary>
+    public class AuthService : IAuthService
     {
         private List<BankAccount> _registeredAccounts;
 

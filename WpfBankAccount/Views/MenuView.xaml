@@ -21,7 +21,7 @@
             <Button Content="Deposit" Margin="0,0,0,10" Height="40"/>
             <Button Content="Withdraw" Margin="0,0,0,10" Height="40"/>
             <Button Content="Transaction History" Margin="0,0,0,10" Height="40"/>
-            <Button Content="Logout" Height="40"/>
+            <Button Content="Logout" Height="40" Command="{Binding LogoutCommand}"/>
 
         </StackPanel>
     </Grid>

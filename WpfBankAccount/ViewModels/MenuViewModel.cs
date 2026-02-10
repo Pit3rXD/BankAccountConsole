@@ -1,21 +1,33 @@
 ﻿using BankAccountCore;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using WpfBankAccount.Navigation;
 
 namespace WpfBankAccount.ViewModels
 {
     public class MenuViewModel : INotifyPropertyChanged
     {
-        private readonly BankAccount _loggedInAccount;
         private readonly MainViewModel _mainViewModel;
-        private readonly Action<object> _navigate;
+        private readonly INavigationService _navigationService;
 
         public BankAccount LoggedInAccount { get; }
-        public MenuViewModel(Action<object> navigate, BankAccount loggedInAccount)
+        public ICommand LogoutCommand { get; }
+
+        public MenuViewModel(INavigationService navigationService, BankAccount loggedInAccount)
         {
-            _navigate = navigate;
-            _loggedInAccount = loggedInAccount;
+            _navigationService = navigationService;
             LoggedInAccount = loggedInAccount;
+            LogoutCommand = new RelayCommand(Logout, CanLogout);
+        }
+
+        private void Logout(object? parameter)
+        {
+            _navigationService.NavigateTo(ViewType.Login);
+        }
+        private bool CanLogout(object? parameter)
+        {
+            return true;
         }
         
         public event PropertyChangedEventHandler? PropertyChanged;
