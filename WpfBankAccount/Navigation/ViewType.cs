@@ -6,6 +6,7 @@
         Menu,
         Deposit,
         Withdraw,
-        History
+        History,
+        CheckBalance
     }
 }

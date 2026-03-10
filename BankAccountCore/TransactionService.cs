@@ -3,7 +3,7 @@ using System;
 
 namespace BankAccountCore
 {
-    internal class DepositService
+    public class TransactionService
     {
         public void Deposit(BankAccount account, decimal amount)
         {
