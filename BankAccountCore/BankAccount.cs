@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Xml.Schema;
+﻿using System.Text.Json.Serialization;
 
 namespace BankAccountCore
 {

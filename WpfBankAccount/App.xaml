@@ -13,5 +13,13 @@
             <views:MenuView/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:CheckBalanceViewModel}">
+            <views:CheckBalanceView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:DepositViewModel}">
+            <views:DepositView/>
+        </DataTemplate>
+
     </Application.Resources>
 </Application>

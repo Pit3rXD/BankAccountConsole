@@ -4,17 +4,19 @@ namespace WpfBankAccount.ViewModels
 {
     public class NavigationService : INavigationService
     {
-        private readonly MainViewModel _mainViewModel;
         private readonly IViewModelFactory _factory;
-        public NavigationService(MainViewModel mainViewModel, IViewModelFactory factory) 
+
+        public event EventHandler<NewViewModelEventArgs> CurrentViewModelChanged;
+
+        public NavigationService(IViewModelFactory factory) 
         {
-            _mainViewModel = mainViewModel;
             _factory = factory;
         }
+
         public void NavigateTo(ViewType viewType, object parameter)
         {
-            object createNewViewModel = _factory.Create(viewType, parameter);
-            _mainViewModel.CurrentView = createNewViewModel;
+            object vm = _factory.Create(this, viewType, parameter);
+            CurrentViewModelChanged?.Invoke(this, new NewViewModelEventArgs(vm));
         }
     }
 }

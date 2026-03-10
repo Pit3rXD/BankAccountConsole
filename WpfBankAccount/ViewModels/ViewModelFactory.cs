@@ -1,39 +1,45 @@
-﻿using BankAccountCore;
+﻿using System;
+using BankAccountCore;
 using WpfBankAccount.Navigation;
 
 namespace WpfBankAccount.ViewModels
 {
     public class ViewModelFactory : IViewModelFactory
     {
-        private readonly INavigationService _navigationService;
         private readonly IAuthService _authService;
-        public ViewModelFactory(INavigationService navigationService, IAuthService authService)
+        private readonly TransactionService _transactionService;
+
+        public ViewModelFactory(IAuthService authService)
         {
-            _navigationService = navigationService;
             _authService = authService;
+            _transactionService = new TransactionService();        
         }
-        public object Create(ViewType viewType, object parameter)
+
+        public object Create(INavigationService navigationService, ViewType viewType, object parameter)
         {
+            var account = parameter as BankAccount;
+
             switch (viewType)
             {
                 case ViewType.Login:
-                    return new LoginViewModel(_navigationService, _authService);
+                    return new LoginViewModel(navigationService, _authService);
 
                 case ViewType.Menu:
-                    var account = parameter as BankAccount;
-                    return new MenuViewModel(_navigationService, account);
+                    return new MenuViewModel(navigationService, account);
 
                 case ViewType.Deposit:
-                    // Dodaj odpowiednią implementację lub zwróć null
-                    return null;
+                    return new DepositViewModel(navigationService, account, _transactionService);
 
                 case ViewType.Withdraw:
-                    // Dodaj odpowiednią implementację lub zwróć null
+                    // Zwróć odpowiedni ViewModel jeśli jest dostępny; obecnie brak implementacji.
                     return null;
 
                 case ViewType.History:
-                    // Dodaj odpowiednią implementację lub zwróć null
+                    // Zwróć odpowiedni ViewModel jeśli jest dostępny; obecnie brak implementacji.
                     return null;
+
+                case ViewType.CheckBalance:
+                    return new CheckBalanceViewModel(navigationService, account);
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null);
