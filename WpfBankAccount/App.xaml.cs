@@ -12,7 +12,10 @@ namespace WpfBankAccount
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            IAuthService authService = new AuthService();
+            AccountDataService accountDataService = new AccountDataService();
+            IAccountRepository accountRepository = new JsonAccountRepository();
+            IAccountNumberGenerator accountNumberGenerator = new AccountNumberGenerator(accountDataService);
+            IAuthService authService = new AuthService(accountRepository, accountNumberGenerator);
             IViewModelFactory viewModelFactory = new ViewModelFactory(authService);
             INavigationService navigationService = new NavigationService(viewModelFactory);
 

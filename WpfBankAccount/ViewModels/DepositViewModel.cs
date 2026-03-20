@@ -8,11 +8,11 @@ namespace WpfBankAccount.ViewModels
     public class DepositViewModel : INotifyPropertyChanged
     {
         private readonly INavigationService _navigationService;
+        private readonly IAuthService _authService;
         private readonly BankAccount _account;
         private readonly TransactionService _transactionService;
         private decimal _amount;
         private string _errorMessage;
-        private bool _hasError;
         public string OwnerName => _account.OwnerName;
         public string AccountNumber => _account.AccountNumber;
         public decimal Balance => _account.Balance;
@@ -32,25 +32,18 @@ namespace WpfBankAccount.ViewModels
             {
                 _errorMessage = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(HasError));
             }
         }
-        public bool HasError
-        {
-            get => _hasError;
-            set
-            {
-                string.IsNullOrEmpty(ErrorMessage);
-                OnPropertyChanged();
-            }
-        }
+        public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
         public ICommand DepositCommand { get; }
         public ICommand BackCommand { get; }
-
-        public DepositViewModel(INavigationService navigationService, BankAccount account, TransactionService transactionService)
+        public DepositViewModel(INavigationService navigationService, IAuthService authService, BankAccount account, TransactionService transactionService)
         {
             _navigationService = navigationService;
             _account = account;
             _transactionService = transactionService;
+            _authService = authService;
 
             BackCommand = new RelayCommand(Back, CanBack);
             DepositCommand = new RelayCommand(ExecuteDeposit, CanExecuteDeposit);
@@ -60,6 +53,8 @@ namespace WpfBankAccount.ViewModels
             try
             {
                 _transactionService.Deposit(_account, Amount);
+                _authService.SaveCurrentState();
+                OnPropertyChanged(nameof(Balance));
                 ErrorMessage = string.Empty;
                 Amount = 0;
             }

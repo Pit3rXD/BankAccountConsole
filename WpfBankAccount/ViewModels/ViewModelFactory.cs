@@ -12,23 +12,28 @@ namespace WpfBankAccount.ViewModels
         public ViewModelFactory(IAuthService authService)
         {
             _authService = authService;
-            _transactionService = new TransactionService();        
+            _transactionService = new TransactionService();
         }
 
         public object Create(INavigationService navigationService, ViewType viewType, object parameter)
         {
             var account = parameter as BankAccount;
 
+            if (viewType == ViewType.Login)
+            {
+                return new LoginViewModel(navigationService, _authService);
+            }
+            if(account == null)
+            {
+                throw new ArgumentNullException(nameof(parameter), "This view requires a BankAccount");
+            }
             switch (viewType)
             {
-                case ViewType.Login:
-                    return new LoginViewModel(navigationService, _authService);
-
                 case ViewType.Menu:
                     return new MenuViewModel(navigationService, account);
 
                 case ViewType.Deposit:
-                    return new DepositViewModel(navigationService, account, _transactionService);
+                    return new DepositViewModel(navigationService, _authService, account, _transactionService);
 
                 case ViewType.Withdraw:
                     // Zwróć odpowiedni ViewModel jeśli jest dostępny; obecnie brak implementacji.

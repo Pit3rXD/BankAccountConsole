@@ -4,31 +4,17 @@ namespace BankAccountCore
 {
     public class BankAccount
     {
-        public BankAccount(string ownerName, string username, string password)
+        public BankAccount(string accountNumber, string ownerName, string username, string password)
+            : this(accountNumber, ownerName, username, password, 0)
         {
             if (string.IsNullOrWhiteSpace(password))
-            {
-                throw new ArgumentException("Password cannot be empty.", nameof(password));
-            }
+                throw new ArgumentException("Password cannot be empty.");
             if (string.IsNullOrWhiteSpace(ownerName))
-            {
-                throw new ArgumentException("Name and surname cannot be empty.", nameof(ownerName));
-            }
+                throw new ArgumentException("Name and surname cannot be empty.");
             if (string.IsNullOrWhiteSpace(username))
-            {
-                throw new ArgumentException("Username cannot be empty.", nameof(username));
-            }
-            OwnerName = ownerName;
-            Username = username;
-            _password = password;
-
-            int seed = AccountDataService.LoadAccountNumberSeed();
-            AccountNumber = "PL" + seed.ToString();
-            AccountDataService.SaveAccountNumberSeed(seed + 1);
-
-            Balance = 0;
+                throw new ArgumentException("Username cannot be empty.");
         }
-
+        
         [JsonConstructor]
         public BankAccount(string accountNumber, string ownerName, string username, string password, decimal balance)
         {
@@ -59,10 +45,9 @@ namespace BankAccountCore
                     _transactions = new List<Transaction>();
                 }
             }
-               
+
         }
 
-        private static int _accountNumberSeed = 10000000;
         private List<Transaction> _transactions = new List<Transaction>();
 
         public void AddTransaction(Transaction transaction)
@@ -83,6 +68,6 @@ namespace BankAccountCore
         {
             return $"{Username} ({OwnerName})";
         }
-        
+
     }
 }
