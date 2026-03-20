@@ -1,17 +1,15 @@
 ﻿using System.Text.Json;
 
-<<<<<<<< HEAD:BankAccountLibrary/Models/AccountDataService.cs
-namespace BankAccountLibrary.Models
-========
 namespace BankAccountCore
->>>>>>>> Implemented MVVM pattern in the project and intergrated WPF components.:BankAccountCore/AccountDataService.cs
 {
     public class AccountDataService
     {
-        private static readonly string _filePath = "account.json";
         private static readonly string _seedPath = "accountSeed.txt";
-
-        public static int LoadAccountNumberSeed()
+        public void SaveAccountNumberSeed(int seed)
+        {
+            File.WriteAllText(_seedPath, seed.ToString());
+        }
+        public int LoadAccountNumberSeed()
         {
             if (File.Exists(_seedPath))
             {
@@ -22,48 +20,6 @@ namespace BankAccountCore
                 }
             }
             return 10000000;
-        }
-
-        public static List<BankAccount> LoadAccounts()
-        {
-            if (!File.Exists(_filePath))
-            {
-                return new List<BankAccount>();
-            }
-            string json = File.ReadAllText(_filePath);
-            var options = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = null
-            };
-            try
-            {
-                List<BankAccount> accounts = JsonSerializer.Deserialize<List<BankAccount>>(json, options) ?? new List<BankAccount>();
-                if (accounts == null)
-                {
-                    return new List<BankAccount>();
-                }
-                return accounts;
-            }
-            catch (JsonException)
-            {
-                return new List<BankAccount>();
-            }
-        }
-
-        public static void SaveAccountNumberSeed(int seed)
-        {
-            File.WriteAllText(_seedPath, seed.ToString());
-        }
-
-        public static void SaveAccounts(List<BankAccount> accounts)
-        {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                PropertyNamingPolicy = null
-            };
-            string json = JsonSerializer.Serialize(accounts, options);
-            File.WriteAllText(_filePath, json);
         }
     }
 }

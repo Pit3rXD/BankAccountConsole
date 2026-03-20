@@ -6,6 +6,11 @@
              xmlns:local="clr-namespace:WpfBankAccount.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </UserControl.Resources>
+    
     <Grid Margin="20">
 
         <Grid.RowDefinitions>
@@ -92,7 +97,7 @@
         
         <!--Error messsage-->
         <!--Chce aby to pole nie było widoczne gdy nie jest potrzebne. Visibility binding-->
-        <TextBlock Visibility="Hidden" 
+        <TextBlock Visibility ="{Binding HasError, Converter={StaticResource BoolToVis}}" 
                    Grid.Row="5"
                    Grid.Column="2"
                    Text="{Binding ErrorMessage}"

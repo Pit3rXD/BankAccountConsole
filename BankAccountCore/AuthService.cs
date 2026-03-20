@@ -2,25 +2,28 @@
 using System.Collections.Generic;
 
 namespace BankAccountCore
-{   
-    /// <summary>
-    /// Stworzyć interfejs dla tej klasy, aby dało się testować bez zapisywania do JSON
-    /// IAccountRepository - Pobiera List<BankAccount> Load();  
-    /// i zwraca void Save(List<BankAccount> account);
-    /// </summary>
+{
     public class AuthService : IAuthService
     {
         private List<BankAccount> _registeredAccounts;
+        private readonly IAccountRepository _accountRepository;
+        private readonly IAccountNumberGenerator _accountNumberGenerator;
 
-        public AuthService() 
+        public AuthService(IAccountRepository accountRepository, IAccountNumberGenerator accountNumberGenerator)
         {
-            _registeredAccounts = AccountDataService.LoadAccounts();
+            _accountRepository = accountRepository;
+            _accountNumberGenerator = accountNumberGenerator;
+            _registeredAccounts = _accountRepository.Load();
         }
         public IEnumerable<BankAccount> GetAllAccounts()
         {
             return _registeredAccounts;
         }
-
+        public void SaveCurrentState()
+        {
+            _accountRepository.Save(_registeredAccounts);
+        }
+       
         public BankAccount Register(string ownerName, string username, string password)
         {
             foreach (var account in _registeredAccounts)
@@ -30,9 +33,10 @@ namespace BankAccountCore
                     throw new ArgumentException("A user whit this name already exists.");
                 }
             }
-            var newAccount = new BankAccount(ownerName, username, password);
+            string accountNumber = _accountNumberGenerator.Generate();
+            var newAccount = new BankAccount(accountNumber, ownerName, username, password);
             _registeredAccounts.Add(newAccount);
-            AccountDataService.SaveAccounts(_registeredAccounts);
+            _accountRepository.Save(_registeredAccounts);
             return newAccount;
         }
         public BankAccount Login(string username, string password)
