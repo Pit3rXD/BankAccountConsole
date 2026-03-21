@@ -14,6 +14,7 @@ namespace WpfBankAccount.ViewModels
         public ICommand LogoutCommand { get; }
         public ICommand CheckBalanceCommand { get; }
         public ICommand DepositCommand { get; }
+        public ICommand WithdrawalCommand { get; }
 
         public MenuViewModel(INavigationService navigationService, BankAccount loggedInAccount)
         {
@@ -22,6 +23,7 @@ namespace WpfBankAccount.ViewModels
             LogoutCommand = new RelayCommand(Logout, CanLogout);
             CheckBalanceCommand = new RelayCommand(CheckBalance, CanCheckBalance);
             DepositCommand = new RelayCommand(Deposit, CanDeposit);
+            WithdrawalCommand = new RelayCommand(Withdrawal, CanWithdrawal);
         }
 
         private void Logout(object? parameter)
@@ -46,6 +48,14 @@ namespace WpfBankAccount.ViewModels
             _navigationService.NavigateTo(ViewType.Deposit, LoggedInAccount);
         }
         private bool CanDeposit(object parameter)
+        {
+            return true;
+        }
+        private void Withdrawal(object parameter)
+        {
+            _navigationService.NavigateTo(ViewType.Withdrawal, LoggedInAccount);
+        }
+        private bool CanWithdrawal(object parameter)
         {
             return true;
         }

@@ -5,7 +5,7 @@
         Login,
         Menu,
         Deposit,
-        Withdraw,
+        Withdrawal,
         History,
         CheckBalance
     }
