@@ -4,7 +4,11 @@ namespace BankAccountCore
 {
     public class AccountDataService
     {
-        private static readonly string _seedPath = "accountSeed.txt";
+        private readonly string _seedPath;
+        public AccountDataService(string seedPath = "accountSeed.txt") 
+        {
+            _seedPath = seedPath;
+        }
         public void SaveAccountNumberSeed(int seed)
         {
             File.WriteAllText(_seedPath, seed.ToString());

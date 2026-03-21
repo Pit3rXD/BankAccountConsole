@@ -35,9 +35,8 @@ namespace WpfBankAccount.ViewModels
                 case ViewType.Deposit:
                     return new DepositViewModel(navigationService, _authService, account, _transactionService);
 
-                case ViewType.Withdraw:
-                    // Zwróć odpowiedni ViewModel jeśli jest dostępny; obecnie brak implementacji.
-                    return null;
+                case ViewType.Withdrawal:
+                    return new WithdrawalViewModel(navigationService, _authService, account, _transactionService);
 
                 case ViewType.History:
                     // Zwróć odpowiedni ViewModel jeśli jest dostępny; obecnie brak implementacji.
