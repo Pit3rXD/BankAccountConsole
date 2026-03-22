@@ -46,14 +46,12 @@
 
         <TextBlock Grid.Row="1"
            Grid.Column="1"
-           Margin="61,0,0,40"
-           FontWeight="Bold"
            Text="{Binding OwnerName}"/>
 
         <!--Account number-->
         <TextBlock Grid.Row="2" 
            Grid.Column="0"
-           Text="Account Number:"
+           Text="Account Number: "
            FontWeight="Bold"/>
 
         <TextBlock Grid.Row="2" 

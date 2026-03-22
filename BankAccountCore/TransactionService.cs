@@ -16,7 +16,8 @@ namespace BankAccountCore
             {
                 Amount = amount,
                 Date = DateTime.Now,
-                Type = TransactionType.Deposit
+                Type = TransactionType.Deposit,
+                BalanceAfter = account.Balance
             });
         }
         public void Withdrawal(BankAccount account, decimal amount)
@@ -34,7 +35,8 @@ namespace BankAccountCore
             {
                 Amount = amount,
                 Date = DateTime.Now,
-                Type = TransactionType.Withdrawal
+                Type = TransactionType.Withdrawal,
+                BalanceAfter = account.Balance
             });
         }
     }

@@ -1,15 +1,9 @@
 ﻿using BankAccountCore;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using WpfBankAccount.Navigation;
 
 namespace WpfBankAccount.ViewModels
 {
-    public abstract class TransactionViewModelBase : INotifyPropertyChanged
+    public abstract class TransactionViewModelBase : ViewModelBase
     {
-        private readonly BankAccount _account;
-        private readonly INavigationService _navigationService;
         private decimal _amount;
         private string _errorMessage;
         protected BankAccount Account => _account;
@@ -38,27 +32,9 @@ namespace WpfBankAccount.ViewModels
             }
         }
         protected TransactionViewModelBase(BankAccount account, INavigationService navigationService)
+            :base(navigationService, account)
         {
-            _account = account;
-            _navigationService = navigationService;
-
-            BackCommand = new RelayCommand(Back, CanBack);
-        }
-        protected virtual void Back(object parameter)
-        {
-            _navigationService.NavigateTo(ViewType.Menu, _account);
-        }
-        protected virtual bool CanBack(object parameter)
-        {
-            return true;
         }
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
-        public ICommand BackCommand { get; }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
