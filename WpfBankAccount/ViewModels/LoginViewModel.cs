@@ -1,19 +1,28 @@
 ﻿using BankAccountCore;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Configuration;
 using System.Windows.Input;
 using WpfBankAccount.Navigation;
 
 namespace WpfBankAccount.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel : ViewModelBase
     {
+        private string _ownerName;
         private string _userName;
         private string _password;
         private string _errorMessage;
         private readonly IAuthService _authService;
-        private readonly INavigationService _navigationService;
 
+        public string OwnerName
+        {
+            get => _ownerName;
+            set
+            {
+                _ownerName = value;
+                OnPropertyChanged();
+                CommandManager.InvalidateRequerySuggested();
+            }
+        }
         public string Username
         {
             get => _userName;
@@ -43,14 +52,13 @@ namespace WpfBankAccount.ViewModels
                 OnPropertyChanged();
             }
         }
-
         public ICommand LoginCommand { get; }
         public ICommand RegisterCommand { get; }
 
         public LoginViewModel(INavigationService navigationService, IAuthService authService)
+            : base(navigationService, null)
         {
             _authService = authService;
-            _navigationService = navigationService;
 
             LoginCommand = new RelayCommand(Login, CanLogin);
             RegisterCommand = new RelayCommand(Register, CanRegister);
@@ -75,15 +83,14 @@ namespace WpfBankAccount.ViewModels
             try
             {
                 string password = parameter as string ?? Password;
-                var accoutn = _authService.Register("Name and surname", Username, password);
-                ErrorMessage = $"An account has been created for {accoutn.OwnerName}";
+                var account = _authService.Register("Username", Username, password);
+                ErrorMessage = $"An account has been created for {account.OwnerName}";
             }
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
             }
         }
-
         private bool CanLogin(object parameter)
         {
             string password = parameter as string ?? Password;
@@ -93,12 +100,6 @@ namespace WpfBankAccount.ViewModels
         {
             string password = parameter as string ?? Password;
             return !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(password);
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
