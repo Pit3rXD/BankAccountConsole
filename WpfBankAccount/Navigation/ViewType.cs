@@ -7,6 +7,7 @@
         Deposit,
         Withdrawal,
         History,
-        CheckBalance
+        CheckBalance,
+        Register
     }
 }
