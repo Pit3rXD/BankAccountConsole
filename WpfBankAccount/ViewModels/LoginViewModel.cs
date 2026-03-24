@@ -1,5 +1,4 @@
 ﻿using BankAccountCore;
-using System.Configuration;
 using System.Windows.Input;
 using WpfBankAccount.Navigation;
 
@@ -7,22 +6,11 @@ namespace WpfBankAccount.ViewModels
 {
     public class LoginViewModel : ViewModelBase
     {
-        private string _ownerName;
         private string _userName;
         private string _password;
         private string _errorMessage;
         private readonly IAuthService _authService;
 
-        public string OwnerName
-        {
-            get => _ownerName;
-            set
-            {
-                _ownerName = value;
-                OnPropertyChanged();
-                CommandManager.InvalidateRequerySuggested();
-            }
-        }
         public string Username
         {
             get => _userName;
@@ -80,16 +68,7 @@ namespace WpfBankAccount.ViewModels
         }
         private void Register(object parameter)
         {
-            try
-            {
-                string password = parameter as string ?? Password;
-                var account = _authService.Register("Username", Username, password);
-                ErrorMessage = $"An account has been created for {account.OwnerName}";
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ex.Message;
-            }
+            _navigationService.NavigateTo(ViewType.Register, null);
         }
         private bool CanLogin(object parameter)
         {
@@ -98,8 +77,7 @@ namespace WpfBankAccount.ViewModels
         }
         private bool CanRegister(object parameter)
         {
-            string password = parameter as string ?? Password;
-            return !string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(password);
+            return true;
         }
     }
 }

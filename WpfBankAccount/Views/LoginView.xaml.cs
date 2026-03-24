@@ -20,5 +20,10 @@ namespace WpfBankAccount.Views
                 vm.Password = ((PasswordBox)sender).Password;
             }
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

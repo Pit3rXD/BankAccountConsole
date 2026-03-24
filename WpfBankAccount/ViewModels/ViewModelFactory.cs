@@ -23,6 +23,10 @@ namespace WpfBankAccount.ViewModels
             {
                 return new LoginViewModel(navigationService, _authService);
             }
+            if(viewType ==  ViewType.Register)
+            {
+                return new RegisterViewModel(navigationService, _authService);
+            }
             if(account == null)
             {
                 throw new ArgumentNullException(nameof(parameter), "This view requires a BankAccount");

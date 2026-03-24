@@ -11,7 +11,7 @@ namespace WpfBankAccount.ViewModels
         protected readonly BankAccount _account;
         protected readonly INavigationService _navigationService;
         public ICommand BackCommand { get; }
-        protected ViewModelBase( INavigationService navigationService, BankAccount? account = null) 
+        protected ViewModelBase(INavigationService navigationService, BankAccount? account = null)
         {
             _navigationService = navigationService;
             _account = account;
