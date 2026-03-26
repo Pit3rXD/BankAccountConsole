@@ -3,6 +3,7 @@ using BankAccountLibrary.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using BankAccountCore;
 
 
 namespace BankAccountConsole
@@ -11,7 +12,7 @@ namespace BankAccountConsole
     {
         private static void Main(string[] args)
         {
-            var authService = new AuthService();
+            //var authService = new AuthService();
             BankAccount currentUser = null;
 
             while (true)
@@ -34,7 +35,7 @@ namespace BankAccountConsole
                             Console.WriteLine("Enter password");
                             string password = Console.ReadLine();
 
-                            currentUser = authService.Login(username, password);
+                            //currentUser = authService.Login(username, password);
                             Console.WriteLine("Login successful!");
                             Thread.Sleep(1500);
                             ShowLoggedInMenu(currentUser);
@@ -68,8 +69,8 @@ namespace BankAccountConsole
                                 Console.WriteLine("Confirm your password: ");
                                 Console.ReadLine();
                             }
-                            var newAccount = authService.Register(name, username, password);
-                            Console.WriteLine($"Account created. You account number is: {newAccount.AccountNumber}");
+                            //var newAccount = authService.Register(name, username, password);
+                            //Console.WriteLine($"Account created. You account number is: {newAccount.AccountNumber}");
                         }
                         catch (ArgumentException ex)
                         {
@@ -123,10 +124,10 @@ namespace BankAccountConsole
                             {
                                 try
                                 {
-                                    var depositService = new DepositService();
-                                    depositService.Deposit(user, amount);
-                                    AccountDataService.SaveAccounts(new List<BankAccount> { user });
-                                    Console.WriteLine($"Successfully deposited {amount:N2} PLN. New balance: {user.Balance:N2} PLN");
+                                    //var depositService = new DepositService();
+                                    //depositService.Deposit(user, amount);
+                                    //AccountDataService.SaveAccounts(new List<BankAccount> { user });
+                                    //Console.WriteLine($"Successfully deposited {amount:N2} PLN. New balance: {user.Balance:N2} PLN");
                                 }
                                 catch (ArgumentException ex)
                                 {
@@ -149,12 +150,12 @@ namespace BankAccountConsole
 
                             if (decimal.TryParse(input, out amount))
                             {
-                                var depositService = new DepositService();
+                                //var depositService = new DepositService();
                                 try
                                 {
-                                    depositService.Withdrawal(user, amount);
-                                    AccountDataService.SaveAccounts(new List<BankAccount> { user });
-                                    Console.WriteLine($"Successfully withdrawal {amount:N2} PLN. New balance: {user.Balance:N2} PLN");
+                                    //depositService.Withdrawal(user, amount);
+                                    //AccountDataService.SaveAccounts(new List<BankAccount> { user });
+                                    //Console.WriteLine($"Successfully withdrawal {amount:N2} PLN. New balance: {user.Balance:N2} PLN");
                                 }
                                 catch (ArgumentException ex)
                                 {
