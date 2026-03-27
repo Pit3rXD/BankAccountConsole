@@ -77,7 +77,7 @@ namespace WpfBankAccount.ViewModels
                 var account = _authService.Register(OwnerName, Username, password);
                 _navigationService.NavigateTo(Navigation.ViewType.Login, null);
             }
-            catch (Exception ex)
+            catch (UserAlreadyExistsException ex)
             {
                 ErrorMessage = ex.Message;
             }

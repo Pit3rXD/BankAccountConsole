@@ -57,13 +57,11 @@ namespace WpfBankAccount.ViewModels
             {
                 string password = parameter as string ?? Password;
                 var account = _authService.Login(Username, password);
-                ErrorMessage = $"Welcome {account.OwnerName}, login successful!";
                 _navigationService.NavigateTo(ViewType.Menu, account);
             }
-            catch (Exception ex)
+            catch (InvalidCredentialsException ex)
             {
-                ErrorMessage = ex.Message; /// Zająć się łapaniem konkretnych wyjątków
-                                           /// najlepiej  mapować na komunikaty UI
+                ErrorMessage = ex.Message;
             }
         }
         private void Register(object parameter)

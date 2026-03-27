@@ -30,7 +30,7 @@ namespace BankAccountCore
             {
                 if (account.Username == username)
                 {
-                    throw new ArgumentException("A user whit this name already exists.");
+                    throw new UserAlreadyExistsException();
                 }
             }
             string accountNumber = _accountNumberGenerator.Generate();
@@ -52,7 +52,7 @@ namespace BankAccountCore
             }
             if (foundAccount == null || !foundAccount.Authenticate(password))
             {
-                throw new UnauthorizedAccessException("Incorrect login or password.");
+                throw new InvalidCredentialsException();
             }
             return foundAccount;
         }
