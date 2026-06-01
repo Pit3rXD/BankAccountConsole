@@ -3,7 +3,6 @@ using BankAccountCore;
 using BankApp.Api.DTOs;
 using BankApp.Api.Interfaces;
 using BankApp.Api.Models;
-using Microsoft.AspNetCore.Http.Connections;
 
 namespace BankApp.Api.Services
 {

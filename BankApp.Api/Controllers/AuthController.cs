@@ -2,7 +2,7 @@
 using BankApp.Api.Interfaces;
 using BankApp.Api.DTOs;
 using BankApp.Api.Exceptions;
-using Microsoft.AspNetCore.Http.HttpResults;
+using AutoMapper;
 
 namespace BankApp.Api.Controllers
 {
@@ -36,8 +36,8 @@ namespace BankApp.Api.Controllers
         {
             try
             {
-                var result = await _service.Login(dto);
-                return Ok(result);
+                var token = await _service.Login(dto);
+                return Ok(new LoginResponseDto { Token = token});
             }
             catch (InvalidCredentialsException)
             {
