@@ -13,6 +13,7 @@ BankApp allows users to register an account, log in securely, view their balance
 - Account balance view with account number and owner details
 - Deposit and withdrawal with insufficient funds validation
 - Transaction history with date, type, amount and running balance
+<<<<<<< HEAD
 - Transfer between accounts *(in progress)*
 
 ## Architecture
@@ -37,7 +38,7 @@ WpfBankAccount  ──[in progress]──►  BankApp.Api  ──EF Core──�
 | ORM | Entity Framework Core |
 | Database | SQL Server |
 | Architecture | MVVM, Repository Pattern, Dependency Injection |
-| Security | BCrypt password hashing |
+| Security | BCrypt password hashing, JWT Bearer tokens |
 
 ## Project Structure
 
@@ -81,8 +82,8 @@ Open `BankAccountConsole.sln` in Visual Studio.
 - [x] Transaction history
 - [x] REST API with EF Core and SQL Server
 - [x] BCrypt password hashing
+- [x] JWT authentication
 - [ ] Connect WPF client to REST API
-- [ ] JWT authentication
 - [ ] Transfers between accounts
 
 ## Author
