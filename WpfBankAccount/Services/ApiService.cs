@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text.Json;
 using WpfBankAccount.DTOs;
 using WpfBankAccount.Interfaces;
+using System.Net.Http.Headers;
 
 namespace WpfBankAccount.Services
 {
@@ -17,70 +17,35 @@ namespace WpfBankAccount.Services
 
         public async Task<BankAccountDto> CreateAccountAsync(BankAccountDto dto)
         {
-            var json = JsonSerializer.Serialize(dto);
-            var content = new StringContent(json, encoding: System.Text.Encoding.UTF8, "aplication/json");
-            var response = await _httpClient.PostAsync("api/bankaccount", content);
-            response.EnsureSuccessStatusCode();
-            var body = await response.Content.ReadAsStringAsync();
-            var createResponse = JsonSerializer.Deserialize<BankAccountDto>(body);
-
-            if (createResponse == null)
-            {
-                throw new Exception("Invalid response from server");
-            }
+            var createResponse = await RequestAsync<BankAccountDto>(HttpMethod.Post, "api/bankaccount", dto);
             return createResponse;
         }
 
-        public async Task<TransactionResponse> CreateTransactionAsync(TransactionRequest registerRequest, int bankAccountId)
+        public async Task<TransactionResponse> CreateTransactionAsync(TransactionRequest request, int bankAccountId)
         {
-            var json = JsonSerializer.Serialize(registerRequest);
-            var content = new StringContent(json, encoding: System.Text.Encoding.UTF8, "aplication/json");
-            var response = await _httpClient.PostAsync($"api/bankaccount/{bankAccountId}/transaction", content);
-            response.EnsureSuccessStatusCode();
-            var body = await response.Content.ReadAsStringAsync();
-            var createResponse = JsonSerializer.Deserialize<TransactionResponse>(body);
-
-            if (createResponse == null)
-            {
-                throw new Exception("Invalid response from server");
-            }
-            return createResponse;
+            var transactionRequest = await RequestAsync<TransactionResponse>(HttpMethod.Post, 
+                $"api/bankaccount/{bankAccountId}/transactions", request);
+            return transactionRequest;
         }
 
-        public Task<IEnumerable<TransactionResponse>> GetAllByAccountIdAsync(int bankAccountId)
+        public async Task<IEnumerable<TransactionResponse>> GetAllByAccountIdAsync(int bankAccountId)
         {
-            throw new NotImplementedException();
+            var getAll = await RequestAsync<IEnumerable<TransactionResponse>>(HttpMethod.Get, $"api/bankaccount/{bankAccountId}/transactions");
+            return getAll;
         }
 
         public async Task<BankAccountDto?> GetByIdAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"api/bankaccount/{id}");
-            response.EnsureSuccessStatusCode();
-            var body = await response.Content.ReadAsStringAsync();
-            var getByIdResponse = JsonSerializer.Deserialize<BankAccountDto?>(body);
-            if (getByIdResponse == null)
-            {
-                throw new Exception("Invalid response from server");
-            }
+
+            var getByIdResponse = await RequestAsync<BankAccountDto>(HttpMethod.Get, $"api/bankaccount/{id}");
             return getByIdResponse;
         }
 
         public async Task<LoginResponse> Login(LoginRequest loginRequest)
         {
-            var json = JsonSerializer.Serialize(loginRequest);
-            var content = new StringContent(json, encoding: System.Text.Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("api/auth/login", content);
-            response.EnsureSuccessStatusCode();
-            var body = await response.Content.ReadAsStringAsync();
-            var loginResponse = JsonSerializer.Deserialize<LoginResponse>(body);
-
-            if (loginResponse == null)
-            {
-                throw new Exception("Invalid response from sever");
-            }
+            var loginResponse = await RequestAsync<LoginResponse>(HttpMethod.Post, "api/auth/login", loginRequest);
             _token = loginResponse.Token;
-            _httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", _token);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
 
             return loginResponse;
         }
@@ -88,21 +53,31 @@ namespace WpfBankAccount.Services
         public async Task Register(RegisterRequest registerRequest)
         {
             var json = JsonSerializer.Serialize(registerRequest);
-            var content = new StringContent(json, encoding: System.Text.Encoding.UTF8, "aplication/json");
+            var content = new StringContent(json, encoding: System.Text.Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/auth/register", content);
             response.EnsureSuccessStatusCode();
         }
 
         public async Task<BankAccountDto> UpdateAsync(BankAccountDto dto)
         {
-            //PUT
-            var json = JsonSerializer.Serialize(dto);
-            var content = new StringContent(json, encoding: System.Text.Encoding.UTF8, "aplication/json");
-            var response = await _httpClient.PutAsync($"api/bankaccount/{dto.Id}", content);
-            response.EnsureSuccessStatusCode();
-            var body = await response.Content.ReadAsStringAsync();
-            var updateResponse = JsonSerializer.Deserialize<BankAccountDto>(body);
+            var updateResponse = await RequestAsync<BankAccountDto>(HttpMethod.Put, $"api/bankaccount/{dto.Id}", dto);
+            return updateResponse;
+        }
 
+        private async Task<T> RequestAsync<T>(HttpMethod method, string url, object? body = null)
+        {
+            var json = JsonSerializer.Serialize(body);
+            var content = new StringContent(json, encoding: System.Text.Encoding.UTF8, "application/json");
+            var request = new HttpRequestMessage(method, url);
+            if (body != null)
+            {
+                request.Content = content;
+            }
+            
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var updateResponse = JsonSerializer.Deserialize<T>(responseBody);
             if (updateResponse == null)
             {
                 throw new Exception("Invalid response from server");

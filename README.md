@@ -13,7 +13,6 @@ BankApp allows users to register an account, log in securely, view their balance
 - Account balance view with account number and owner details
 - Deposit and withdrawal with insufficient funds validation
 - Transaction history with date, type, amount and running balance
-<<<<<<< HEAD
 - Transfer between accounts *(in progress)*
 
 ## Architecture
@@ -69,7 +68,7 @@ BankApp/
 git clone https://github.com/PiotrLukaszewiczDev/BankApp.git
 ```
 
-Open `BankAccountConsole.sln` in Visual Studio.
+Open `BankApp.sln` in Visual Studio.
 
 **To run the API:** set `BankApp.Api` as the startup project, update the connection string in `appsettings.json`, run EF Core migrations and press F5. Swagger UI will open automatically.
 

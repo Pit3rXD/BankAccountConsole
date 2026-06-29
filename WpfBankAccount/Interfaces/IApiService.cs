@@ -9,7 +9,7 @@ namespace WpfBankAccount.Interfaces
         Task<BankAccountDto> CreateAccountAsync(BankAccountDto dto);
         Task<BankAccountDto?> GetByIdAsync(int id);
         Task<BankAccountDto> UpdateAsync(BankAccountDto dto);
-        Task<TransactionResponse> CreateTransactionAsync(TransactionRequest registerRequest, int bankAccountId);
+        Task<TransactionResponse> CreateTransactionAsync(TransactionRequest request, int bankAccountId);
         Task<IEnumerable<TransactionResponse>> GetAllByAccountIdAsync(int bankAccountId);
     }
 }
