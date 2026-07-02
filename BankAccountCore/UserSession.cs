@@ -8,6 +8,6 @@ namespace BankAccountCore
 {
     public class UserSession
     {
-        public BankAccount CurrentUser { get; set; }
+        public BankAccountDto CurrentUser { get; set; }
     }
 }

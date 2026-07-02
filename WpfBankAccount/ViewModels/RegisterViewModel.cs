@@ -10,7 +10,7 @@ namespace WpfBankAccount.ViewModels
         private string _password;
         private string _confirmPassword;
         private string _errorMessage;
-        private readonly IAuthService _authService;
+        private readonly IApiService _authService;
 
         public string OwnerName
         {
@@ -63,7 +63,7 @@ namespace WpfBankAccount.ViewModels
         }
         public ICommand RegisterCommand { get; }
 
-        public RegisterViewModel(INavigationService navigationService, IAuthService authService)
+        public RegisterViewModel(INavigationService navigationService, IApiService authService)
             : base(navigationService)
         {
             _authService = authService;

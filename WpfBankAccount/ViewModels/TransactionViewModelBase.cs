@@ -6,7 +6,7 @@ namespace WpfBankAccount.ViewModels
     {
         private decimal _amount;
         private string _errorMessage;
-        protected BankAccount Account => _account;
+        protected BankAccountDto Account => _account;
 
         public string OwnerName => _account.OwnerName;
         public string AccountNumber => _account.AccountNumber;
@@ -31,7 +31,7 @@ namespace WpfBankAccount.ViewModels
                 OnPropertyChanged(nameof(HasError));
             }
         }
-        protected TransactionViewModelBase(BankAccount account, INavigationService navigationService)
+        protected TransactionViewModelBase(BankAccountDto account, INavigationService navigationService)
             :base(navigationService, account)
         {
         }

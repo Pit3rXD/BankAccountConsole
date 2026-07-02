@@ -1,27 +1,30 @@
-﻿using System;
-using BankAccountCore;
+﻿using BankAccountCore;
+using WpfBankAccount.Interfaces;
 using WpfBankAccount.Navigation;
 
 namespace WpfBankAccount.ViewModels
 {
     public class ViewModelFactory : IViewModelFactory
     {
-        private readonly IAuthService _authService;
+        //private readonly BankAccountCore.IApiService _authService;
+        private readonly Interfaces.IApiService _apiService;
         private readonly TransactionService _transactionService;
+        
 
-        public ViewModelFactory(IAuthService authService)
+        public ViewModelFactory(BankAccountCore.IApiService authService, Interfaces.IApiService apiService)
         {
             _authService = authService;
+            _apiService = apiService;
             _transactionService = new TransactionService();
         }
 
         public object Create(INavigationService navigationService, ViewType viewType, object parameter)
         {
-            var account = parameter as BankAccount;
+            var account = parameter as BankAccountDto;
 
             if (viewType == ViewType.Login)
             {
-                return new LoginViewModel(navigationService, _authService);
+                return new LoginViewModel(navigationService, _apiService);
             }
             if(viewType ==  ViewType.Register)
             {

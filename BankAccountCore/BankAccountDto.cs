@@ -2,9 +2,9 @@
 
 namespace BankAccountCore
 {
-    public class BankAccount
+    public class BankAccountDto
     {
-        public BankAccount(string accountNumber, string ownerName, string username, string password)
+        public BankAccountDto(string accountNumber, string ownerName, string username, string password)
             : this(accountNumber, ownerName, username, password, 0)
         {
             if (string.IsNullOrWhiteSpace(password))
@@ -16,7 +16,7 @@ namespace BankAccountCore
         }
         
         [JsonConstructor]
-        public BankAccount(string accountNumber, string ownerName, string username, string password, decimal balance)
+        public BankAccountDto(string accountNumber, string ownerName, string username, string password, decimal balance)
         {
             AccountNumber = accountNumber;
             OwnerName = ownerName;

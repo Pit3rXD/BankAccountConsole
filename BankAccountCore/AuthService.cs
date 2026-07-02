@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace BankAccountCore
 {
-    public class AuthService : IAuthService
+    public class AuthService : IApiService
     {
-        private List<BankAccount> _registeredAccounts;
+        private List<BankAccountDto> _registeredAccounts;
         private readonly IAccountRepository _accountRepository;
         private readonly IAccountNumberGenerator _accountNumberGenerator;
 
@@ -15,7 +15,7 @@ namespace BankAccountCore
             _accountNumberGenerator = accountNumberGenerator;
             _registeredAccounts = _accountRepository.Load();
         }
-        public IEnumerable<BankAccount> GetAllAccounts()
+        public IEnumerable<BankAccountDto> GetAllAccounts()
         {
             return _registeredAccounts;
         }
@@ -24,7 +24,7 @@ namespace BankAccountCore
             _accountRepository.Save(_registeredAccounts);
         }
        
-        public BankAccount Register(string ownerName, string username, string password)
+        public BankAccountDto Register(string ownerName, string username, string password)
         {
             foreach (var account in _registeredAccounts)
             {
@@ -34,14 +34,14 @@ namespace BankAccountCore
                 }
             }
             string accountNumber = _accountNumberGenerator.Generate();
-            var newAccount = new BankAccount(accountNumber, ownerName, username, password);
+            var newAccount = new BankAccountDto(accountNumber, ownerName, username, password);
             _registeredAccounts.Add(newAccount);
             _accountRepository.Save(_registeredAccounts);
             return newAccount;
         }
-        public BankAccount Login(string username, string password)
+        public BankAccountDto Login(string username, string password)
         {
-            BankAccount foundAccount = null;
+            BankAccountDto foundAccount = null;
 
             foreach (var account in _registeredAccounts)
             {

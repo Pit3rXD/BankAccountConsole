@@ -4,7 +4,7 @@ namespace BankAccountCore
 {
     public class TransactionService
     {
-        public void Deposit(BankAccount account, decimal amount)
+        public void Deposit(BankAccountDto account, decimal amount)
         {
             if (amount <= 0)
             {
@@ -19,7 +19,7 @@ namespace BankAccountCore
                 BalanceAfter = account.Balance
             });
         }
-        public void Withdrawal(BankAccount account, decimal amount)
+        public void Withdrawal(BankAccountDto account, decimal amount)
         {
             if (amount <= 0)
             {

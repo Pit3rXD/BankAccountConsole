@@ -11,8 +11,8 @@ namespace BankApp.Api.Mappings
         {
             CreateMap<CreateTransactionDto, TransactionEntity>();
             CreateMap<TransactionEntity, TransactionDto>();
-            CreateMap<BankAccountEntity,  BankAccount>();
-            CreateMap<BankAccount, BankAccountEntity>();
+            CreateMap<BankAccountEntity, BankAccountCore.BankAccountDto>();
+            CreateMap<BankAccountCore.BankAccountDto, BankAccountEntity>();
             CreateMap<Transaction, TransactionEntity>();
         }
     }

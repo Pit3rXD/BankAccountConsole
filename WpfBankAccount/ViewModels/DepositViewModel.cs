@@ -5,10 +5,10 @@ namespace WpfBankAccount.ViewModels
 {
     public class DepositViewModel : TransactionViewModelBase
     {
-        private readonly IAuthService _authService;
+        private readonly IApiService _authService;
         private readonly TransactionService _transactionService;
         public ICommand DepositCommand { get; }
-        public DepositViewModel(INavigationService navigationService, IAuthService authService, BankAccount account, TransactionService transactionService)
+        public DepositViewModel(INavigationService navigationService, IApiService authService, BankAccountDto account, TransactionService transactionService)
             : base(account, navigationService)
         {
             _transactionService = transactionService;

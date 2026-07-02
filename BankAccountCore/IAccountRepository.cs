@@ -2,7 +2,7 @@
 {
     public interface IAccountRepository
     {
-        void Save(List<BankAccount> accounts);
-        List<BankAccount> Load();
+        void Save(List<BankAccountDto> accounts);
+        List<BankAccountDto> Load();
     }
 }

@@ -5,10 +5,10 @@ namespace WpfBankAccount.ViewModels
 {
     public class WithdrawalViewModel : TransactionViewModelBase
     {
-        private readonly IAuthService _authService;
+        private readonly IApiService _authService;
         private readonly TransactionService _transactionService;
         public ICommand WithdrawalCommand { get; }
-        public WithdrawalViewModel(INavigationService navigationService, IAuthService authService, BankAccount account, TransactionService transactionService)
+        public WithdrawalViewModel(INavigationService navigationService, IApiService authService, BankAccountDto account, TransactionService transactionService)
             : base(account, navigationService)
         {
             _authService = authService;
