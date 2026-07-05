@@ -24,11 +24,26 @@ namespace BankApp.Api.Controllers
             TransactionDto result;
             if (dto.TransactionType == TransactionType.Deposit)
             {
-                result = await _transactionService.DepositAsync(dto.Amount, bankAccountId); 
+                try
+                {
+                    result = await _transactionService.DepositAsync(dto.Amount, bankAccountId);
+                }
+                catch (ArgumentException ex)
+                {
+                    return NotFound(ex.Message);
+                }
             }
+            
             else
             {
-                result = await _transactionService.WithdrawalAsync(dto.Amount, bankAccountId);
+                try
+                {
+                    result = await _transactionService.WithdrawalAsync(dto.Amount, bankAccountId);
+                }
+                catch (BankApp.Api.Exceptions.InsufficientFundsException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
             return CreatedAtAction(nameof(GetAllByAccountId), new { bankAccountId = bankAccountId }, result);
         }
@@ -41,3 +56,4 @@ namespace BankApp.Api.Controllers
         }
     }
 }
+

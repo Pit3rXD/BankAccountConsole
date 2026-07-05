@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BankAccountCore
 {
-    public class AuthService : IApiService
+    public class AuthService : IAuthService
     {
         private List<BankAccountDto> _registeredAccounts;
         private readonly IAccountRepository _accountRepository;

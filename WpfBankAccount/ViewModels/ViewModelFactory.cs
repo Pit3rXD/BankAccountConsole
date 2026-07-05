@@ -1,17 +1,18 @@
 ﻿using BankAccountCore;
 using WpfBankAccount.Interfaces;
 using WpfBankAccount.Navigation;
+using WpfBankAccount.DTOs;
 
 namespace WpfBankAccount.ViewModels
 {
     public class ViewModelFactory : IViewModelFactory
     {
-        //private readonly BankAccountCore.IApiService _authService;
-        private readonly Interfaces.IApiService _apiService;
+        private readonly IAuthService _authService;
+        private readonly IApiService _apiService;
         private readonly TransactionService _transactionService;
         
 
-        public ViewModelFactory(BankAccountCore.IApiService authService, Interfaces.IApiService apiService)
+        public ViewModelFactory(IAuthService authService, IApiService apiService)
         {
             _authService = authService;
             _apiService = apiService;
@@ -20,7 +21,7 @@ namespace WpfBankAccount.ViewModels
 
         public object Create(INavigationService navigationService, ViewType viewType, object parameter)
         {
-            var account = parameter as BankAccountDto;
+            var account = parameter as WpfBankAccount.DTOs.BankAccountDto;
 
             if (viewType == ViewType.Login)
             {
@@ -40,10 +41,10 @@ namespace WpfBankAccount.ViewModels
                     return new MenuViewModel(navigationService, account);
 
                 case ViewType.Deposit:
-                    return new DepositViewModel(navigationService, _authService, account, _transactionService);
+                    return new DepositViewModel(navigationService, account, _apiService);
 
                 case ViewType.Withdrawal:
-                    return new WithdrawalViewModel(navigationService, _authService, account, _transactionService);
+                    return new WithdrawalViewModel(navigationService, account, _apiService);
 
                 case ViewType.History:
                     return new HistoryViewModel(navigationService, account);

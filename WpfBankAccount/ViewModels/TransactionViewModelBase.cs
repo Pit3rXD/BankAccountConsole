@@ -1,4 +1,4 @@
-﻿using BankAccountCore;
+﻿using WpfBankAccount.DTOs;
 
 namespace WpfBankAccount.ViewModels
 {

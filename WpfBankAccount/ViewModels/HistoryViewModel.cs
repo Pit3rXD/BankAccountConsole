@@ -5,11 +5,12 @@ namespace WpfBankAccount.ViewModels
 {
     public class HistoryViewModel : TransactionViewModelBase
     {
+        //TODO: docelowo pobierać przez IApiService.GetAllByAccountIdAsync
         public HistoryViewModel(INavigationService navigationService, BankAccountDto account)
             : base(account, navigationService)
         {
-            Transactions = new ObservableCollection<Transaction>(account.GetTransactionHistory());
+            Transactions = new ObservableCollection<TransactionResponse>();
         }
-        public ObservableCollection<Transaction> Transactions { get; }
+        public ObservableCollection<TransactionResponse> Transactions { get; }
     }
 }

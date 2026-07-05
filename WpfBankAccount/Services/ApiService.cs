@@ -10,6 +10,7 @@ namespace WpfBankAccount.Services
     {
         private readonly HttpClient _httpClient;
         private string? _token;
+        private static readonly JsonSerializerOptions _jsonOptions = new(JsonSerializerDefaults.Web);
         public ApiService(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -23,7 +24,7 @@ namespace WpfBankAccount.Services
 
         public async Task<TransactionResponse> CreateTransactionAsync(TransactionRequest request, int bankAccountId)
         {
-            var transactionRequest = await RequestAsync<TransactionResponse>(HttpMethod.Post, 
+            var transactionRequest = await RequestAsync<TransactionResponse>(HttpMethod.Post,
                 $"api/bankaccount/{bankAccountId}/transactions", request);
             return transactionRequest;
         }
@@ -52,7 +53,7 @@ namespace WpfBankAccount.Services
 
         public async Task Register(RegisterRequest registerRequest)
         {
-            var json = JsonSerializer.Serialize(registerRequest);
+            var json = JsonSerializer.Serialize(registerRequest, _jsonOptions);
             var content = new StringContent(json, encoding: System.Text.Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/auth/register", content);
             response.EnsureSuccessStatusCode();
@@ -66,18 +67,21 @@ namespace WpfBankAccount.Services
 
         private async Task<T> RequestAsync<T>(HttpMethod method, string url, object? body = null)
         {
-            var json = JsonSerializer.Serialize(body);
+            var json = JsonSerializer.Serialize(body, _jsonOptions);
             var content = new StringContent(json, encoding: System.Text.Encoding.UTF8, "application/json");
             var request = new HttpRequestMessage(method, url);
             if (body != null)
             {
                 request.Content = content;
             }
-            
+
             var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
-            var updateResponse = JsonSerializer.Deserialize<T>(responseBody);
+            if(!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException(responseBody);
+            }
+            var updateResponse = JsonSerializer.Deserialize<T>(responseBody, _jsonOptions);
             if (updateResponse == null)
             {
                 throw new Exception("Invalid response from server");
