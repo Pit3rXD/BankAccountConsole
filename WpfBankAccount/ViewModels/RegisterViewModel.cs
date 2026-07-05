@@ -1,5 +1,8 @@
 ﻿using BankAccountCore;
 using System.Windows.Input;
+using WpfBankAccount.Interfaces;
+using WpfBankAccount.DTOs;
+using System.Net.Http;
 
 namespace WpfBankAccount.ViewModels
 {
@@ -10,7 +13,7 @@ namespace WpfBankAccount.ViewModels
         private string _password;
         private string _confirmPassword;
         private string _errorMessage;
-        private readonly IAuthService _authService;
+        private readonly IApiService _apiService;
 
         public string OwnerName
         {
@@ -63,21 +66,21 @@ namespace WpfBankAccount.ViewModels
         }
         public ICommand RegisterCommand { get; }
 
-        public RegisterViewModel(INavigationService navigationService, IAuthService authService)
+        public RegisterViewModel(INavigationService navigationService, IApiService apiService)
             : base(navigationService)
         {
-            _authService = authService;
+            _apiService = apiService;
             RegisterCommand = new RelayCommand(Register, CanRegister);
         }
-        private void Register(object parameter)
+        private async void Register(object parameter)
         {
             try
-            {
-                string password = parameter as string ?? Password;
-                var account = _authService.Register(OwnerName, Username, password);
+            {                                                                       
+                var request = new RegisterRequest { OwnerName = OwnerName, UserName = Username, Password = Password };
+                await _apiService.Register(request);
                 _navigationService.NavigateTo(Navigation.ViewType.Login, null);
             }
-            catch (UserAlreadyExistsException ex)
+            catch (HttpRequestException ex)
             {
                 ErrorMessage = ex.Message;
             }

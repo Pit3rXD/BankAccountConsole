@@ -29,7 +29,7 @@ namespace WpfBankAccount.ViewModels
             }
             if(viewType ==  ViewType.Register)
             {
-                return new RegisterViewModel(navigationService, _authService);
+                return new RegisterViewModel(navigationService, _apiService);
             }
             if(account == null)
             {
@@ -47,7 +47,7 @@ namespace WpfBankAccount.ViewModels
                     return new WithdrawalViewModel(navigationService, account, _apiService);
 
                 case ViewType.History:
-                    return new HistoryViewModel(navigationService, account);
+                    return new HistoryViewModel(navigationService, account, _apiService);
 
                 case ViewType.CheckBalance:
                     return new CheckBalanceViewModel(navigationService, account);

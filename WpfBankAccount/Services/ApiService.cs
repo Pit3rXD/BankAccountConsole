@@ -56,7 +56,11 @@ namespace WpfBankAccount.Services
             var json = JsonSerializer.Serialize(registerRequest, _jsonOptions);
             var content = new StringContent(json, encoding: System.Text.Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/auth/register", content);
-            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync();
+            if(!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException(responseBody);
+            }
         }
 
         public async Task<BankAccountDto> UpdateAsync(BankAccountDto dto)

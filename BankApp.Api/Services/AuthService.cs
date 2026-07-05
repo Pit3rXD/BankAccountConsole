@@ -70,7 +70,7 @@ namespace BankApp.Api.Services
             var user = await _repository.GetByUsernameAsync(username);
             if (user != null)
             {
-                throw new UserAlreadyExistsException();
+                throw new BankApp.Api.Exceptions.UserAlreadyExistsException();
             }
             var password = dto.Password;
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
