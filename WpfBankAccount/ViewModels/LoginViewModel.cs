@@ -1,8 +1,8 @@
-﻿using BankAccountCore;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using WpfBankAccount.DTOs;
 using WpfBankAccount.Navigation;
 using WpfBankAccount.Interfaces;
+using System.Net.Http;
 
 namespace WpfBankAccount.ViewModels
 {
@@ -63,7 +63,7 @@ namespace WpfBankAccount.ViewModels
                 var getById = await _apiService.GetByIdAsync(account.Id);
                 _navigationService.NavigateTo(ViewType.Menu, getById);
             }
-            catch (InvalidCredentialsException ex)
+            catch (HttpRequestException ex)
             {
                 ErrorMessage = ex.Message;
             }

@@ -36,7 +36,7 @@ namespace BankApp.Api.Services
             bool isValid = BCrypt.Net.BCrypt.Verify(password, hashedPassword);
             if (!isValid)
             {
-                throw new InvalidCredentialsException();
+                throw new BankApp.Api.Exceptions.InvalidCredentialsException();
             }
             var secret = _configuration["Jwt:Secret"]!;
             var issuer = _configuration["Jwt:Issuer"]!;
