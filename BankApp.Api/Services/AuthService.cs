@@ -2,6 +2,7 @@
 using BankApp.Api.DTOs;
 using BankApp.Api.Interfaces;
 using BankApp.Api.Models;
+using BankApp.Api.Exceptions;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -36,7 +37,7 @@ namespace BankApp.Api.Services
             bool isValid = BCrypt.Net.BCrypt.Verify(password, hashedPassword);
             if (!isValid)
             {
-                throw new BankApp.Api.Exceptions.InvalidCredentialsException();
+                throw new InvalidCredentialsException();
             }
             var secret = _configuration["Jwt:Secret"]!;
             var issuer = _configuration["Jwt:Issuer"]!;
@@ -70,7 +71,7 @@ namespace BankApp.Api.Services
             var user = await _repository.GetByUsernameAsync(username);
             if (user != null)
             {
-                throw new BankApp.Api.Exceptions.UserAlreadyExistsException();
+                throw new UserAlreadyExistsException();
             }
             var password = dto.Password;
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(password);

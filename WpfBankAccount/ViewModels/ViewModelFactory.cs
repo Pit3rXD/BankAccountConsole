@@ -1,5 +1,4 @@
-﻿using BankAccountCore;
-using WpfBankAccount.Interfaces;
+﻿using WpfBankAccount.Interfaces;
 using WpfBankAccount.Navigation;
 using WpfBankAccount.DTOs;
 
@@ -7,21 +6,17 @@ namespace WpfBankAccount.ViewModels
 {
     public class ViewModelFactory : IViewModelFactory
     {
-        private readonly IAuthService _authService;
         private readonly IApiService _apiService;
-        private readonly TransactionService _transactionService;
         
 
-        public ViewModelFactory(IAuthService authService, IApiService apiService)
+        public ViewModelFactory(IApiService apiService)
         {
-            _authService = authService;
             _apiService = apiService;
-            _transactionService = new TransactionService();
         }
 
         public object Create(INavigationService navigationService, ViewType viewType, object parameter)
         {
-            var account = parameter as WpfBankAccount.DTOs.BankAccountDto;
+            var account = parameter as DTOs.BankAccountDto;
 
             if (viewType == ViewType.Login)
             {
