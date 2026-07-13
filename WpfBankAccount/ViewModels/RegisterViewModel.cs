@@ -1,5 +1,4 @@
-﻿using BankAccountCore;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using WpfBankAccount.Interfaces;
 using WpfBankAccount.DTOs;
 using System.Net.Http;
@@ -13,6 +12,7 @@ namespace WpfBankAccount.ViewModels
         private string _password;
         private string _confirmPassword;
         private string _errorMessage;
+        private string _successMessage;
         private readonly IApiService _apiService;
 
         public string OwnerName
@@ -51,6 +51,14 @@ namespace WpfBankAccount.ViewModels
             set
             {
                 _confirmPassword = value;
+                if (_password != null && _confirmPassword != null && _password != _confirmPassword)
+                {
+                    ErrorMessage = ("Passwords do not match");
+                }
+                else
+                {
+                    ErrorMessage = string.Empty;
+                }
                 OnPropertyChanged();
                 CommandManager.InvalidateRequerySuggested();
             }
@@ -61,6 +69,15 @@ namespace WpfBankAccount.ViewModels
             set
             {
                 _errorMessage = value;
+                OnPropertyChanged();
+            }
+        }
+        public string SuccessMessage
+        {
+            get => _successMessage;
+            set
+            {
+                _successMessage = value;
                 OnPropertyChanged();
             }
         }
@@ -78,6 +95,9 @@ namespace WpfBankAccount.ViewModels
             {                                                                       
                 var request = new RegisterRequest { OwnerName = OwnerName, UserName = Username, Password = Password };
                 await _apiService.Register(request);
+                SuccessMessage = ("Registration successful!");
+                ErrorMessage = string.Empty;
+                await Task.Delay(TimeSpan.FromSeconds(3));
                 _navigationService.NavigateTo(Navigation.ViewType.Login, null);
             }
             catch (HttpRequestException ex)
