@@ -1,5 +1,6 @@
-﻿using BankAccountCore;
+﻿using System.Net.Http;
 using System.Windows;
+using WpfBankAccount.Services;
 using WpfBankAccount.ViewModels;
 using WpfBankAccount.Views;
 
@@ -12,11 +13,10 @@ namespace WpfBankAccount
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            AccountDataService accountDataService = new AccountDataService();
-            IAccountRepository accountRepository = new JsonAccountRepository();
-            IAccountNumberGenerator accountNumberGenerator = new AccountNumberGenerator(accountDataService);
-            IAuthService authService = new AuthService(accountRepository, accountNumberGenerator);
-            IViewModelFactory viewModelFactory = new ViewModelFactory(authService);
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7065/");
+            Interfaces.IApiService apiService = new ApiService(client);
+            IViewModelFactory viewModelFactory = new ViewModelFactory(apiService);
             INavigationService navigationService = new NavigationService(viewModelFactory);
 
             var mainViewModel = new MainViewModel(navigationService);

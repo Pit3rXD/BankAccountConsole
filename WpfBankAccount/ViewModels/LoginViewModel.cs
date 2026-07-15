@@ -1,6 +1,8 @@
-﻿using BankAccountCore;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using WpfBankAccount.DTOs;
 using WpfBankAccount.Navigation;
+using WpfBankAccount.Interfaces;
+using System.Net.Http;
 
 namespace WpfBankAccount.ViewModels
 {
@@ -9,7 +11,7 @@ namespace WpfBankAccount.ViewModels
         private string _userName;
         private string _password;
         private string _errorMessage;
-        private readonly IAuthService _authService;
+        private readonly IApiService _apiService;
 
         public string Username
         {
@@ -43,23 +45,25 @@ namespace WpfBankAccount.ViewModels
         public ICommand LoginCommand { get; }
         public ICommand RegisterCommand { get; }
 
-        public LoginViewModel(INavigationService navigationService, IAuthService authService)
+        public LoginViewModel(INavigationService navigationService, IApiService apiService)
             : base(navigationService, null)
         {
-            _authService = authService;
 
             LoginCommand = new RelayCommand(Login, CanLogin);
             RegisterCommand = new RelayCommand(Register, CanRegister);
+            _apiService = apiService;
         }
-        private void Login(object parameter)
+        private async void Login(object parameter)
         {
             try
             {
                 string password = parameter as string ?? Password;
-                var account = _authService.Login(Username, password);
-                _navigationService.NavigateTo(ViewType.Menu, account);
+                var request = new LoginRequest { UserName = Username, Password = password };
+                var account = await _apiService.Login(request);
+                var getById = await _apiService.GetByIdAsync(account.Id);
+                _navigationService.NavigateTo(ViewType.Menu, getById);
             }
-            catch (InvalidCredentialsException ex)
+            catch (HttpRequestException ex)
             {
                 ErrorMessage = ex.Message;
             }

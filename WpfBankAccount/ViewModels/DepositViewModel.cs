@@ -1,34 +1,36 @@
 ﻿using BankAccountCore;
+using System.Net.Http;
 using System.Windows.Input;
+using WpfBankAccount.DTOs;
+using WpfBankAccount.Interfaces;
 
 namespace WpfBankAccount.ViewModels
 {
     public class DepositViewModel : TransactionViewModelBase
     {
-        private readonly IAuthService _authService;
-        private readonly TransactionService _transactionService;
+        private readonly IApiService _apiService;
         public ICommand DepositCommand { get; }
-        public DepositViewModel(INavigationService navigationService, IAuthService authService, BankAccount account, TransactionService transactionService)
+        public DepositViewModel(INavigationService navigationService, WpfBankAccount.DTOs.BankAccountDto account, IApiService apiService)
             : base(account, navigationService)
         {
-            _transactionService = transactionService;
-            _authService = authService;
-
+            _apiService = apiService;
             DepositCommand = new RelayCommand(ExecuteDeposit, CanExecuteDeposit);
         }
-        private void ExecuteDeposit(object parameter)
+        private async void ExecuteDeposit(object parameter)
         {
             try
             {
-                _transactionService.Deposit(Account, Amount);
-                _authService.SaveCurrentState();
+                var request = new TransactionRequest { Amount = Amount, TransactionType = TransactionType.Deposit };
+                var response = await _apiService.CreateTransactionAsync(request, Account.Id);
+                Account.Balance = response.BalanceAfter;
                 OnPropertyChanged(nameof(Balance));
                 ErrorMessage = string.Empty;
                 Amount = 0;
+
             }
-            catch (ArgumentException ex)
+            catch (HttpRequestException ex)
             {
-                ErrorMessage = ex.Message; //Napisać swój wyjątek.
+                ErrorMessage = $"Operation was canceled: {ex.Message}";
             }
         }
         private bool CanExecuteDeposit(object parameter)

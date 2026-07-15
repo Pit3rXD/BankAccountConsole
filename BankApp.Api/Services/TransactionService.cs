@@ -52,7 +52,7 @@ namespace BankApp.Api.Services
             
             if(account.Balance < amount)
             {
-                throw new InsufficientFundsException();
+                throw new BankApp.Api.Exceptions.InsufficientFundsException();
             }
             account.Balance -= amount;
             await _bankRepository.UpdateAsync(account);

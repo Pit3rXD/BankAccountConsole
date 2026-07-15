@@ -1,8 +1,8 @@
-﻿using BankAccountCore;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using WpfBankAccount.Navigation;
+using WpfBankAccount.DTOs;
 
 namespace WpfBankAccount.ViewModels
 {
@@ -10,14 +10,14 @@ namespace WpfBankAccount.ViewModels
     {
         private readonly INavigationService _navigationService;
 
-        public BankAccount LoggedInAccount { get; }
+        public BankAccountDto LoggedInAccount { get; }
         public ICommand LogoutCommand { get; }
         public ICommand CheckBalanceCommand { get; }
         public ICommand DepositCommand { get; }
         public ICommand WithdrawalCommand { get; }
         public ICommand HistoryCommand { get; }
 
-        public MenuViewModel(INavigationService navigationService, BankAccount loggedInAccount)
+        public MenuViewModel(INavigationService navigationService, BankAccountDto loggedInAccount)
         {
             _navigationService = navigationService;
             LoggedInAccount = loggedInAccount;

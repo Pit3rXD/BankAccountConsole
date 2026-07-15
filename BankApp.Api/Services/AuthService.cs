@@ -2,6 +2,7 @@
 using BankApp.Api.DTOs;
 using BankApp.Api.Interfaces;
 using BankApp.Api.Models;
+using BankApp.Api.Exceptions;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -23,7 +24,7 @@ namespace BankApp.Api.Services
             _generator = generator;
             _configuration = configuration;
         }
-        public async Task<string> Login(LoginDto dto)
+        public async Task<LoginResponseDto> Login(LoginDto dto)
         {
             var username = dto.UserName;
             var user = await _repository.GetByUsernameAsync(username);
@@ -59,7 +60,9 @@ namespace BankApp.Api.Services
                 expires: DateTime.UtcNow.AddMinutes(int.Parse(expireMinutes)),
                 signingCredentials: creds
                 );
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            return new LoginResponseDto { Token = tokenString, Id = user.Id };
         }
 
         public async Task Register(RegisterDto dto)

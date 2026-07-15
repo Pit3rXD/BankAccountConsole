@@ -1,31 +1,30 @@
-﻿using System;
-using BankAccountCore;
+﻿using WpfBankAccount.Interfaces;
 using WpfBankAccount.Navigation;
+using WpfBankAccount.DTOs;
 
 namespace WpfBankAccount.ViewModels
 {
     public class ViewModelFactory : IViewModelFactory
     {
-        private readonly IAuthService _authService;
-        private readonly TransactionService _transactionService;
+        private readonly IApiService _apiService;
+        
 
-        public ViewModelFactory(IAuthService authService)
+        public ViewModelFactory(IApiService apiService)
         {
-            _authService = authService;
-            _transactionService = new TransactionService();
+            _apiService = apiService;
         }
 
         public object Create(INavigationService navigationService, ViewType viewType, object parameter)
         {
-            var account = parameter as BankAccount;
+            var account = parameter as DTOs.BankAccountDto;
 
             if (viewType == ViewType.Login)
             {
-                return new LoginViewModel(navigationService, _authService);
+                return new LoginViewModel(navigationService, _apiService);
             }
             if(viewType ==  ViewType.Register)
             {
-                return new RegisterViewModel(navigationService, _authService);
+                return new RegisterViewModel(navigationService, _apiService);
             }
             if(account == null)
             {
@@ -37,13 +36,13 @@ namespace WpfBankAccount.ViewModels
                     return new MenuViewModel(navigationService, account);
 
                 case ViewType.Deposit:
-                    return new DepositViewModel(navigationService, _authService, account, _transactionService);
+                    return new DepositViewModel(navigationService, account, _apiService);
 
                 case ViewType.Withdrawal:
-                    return new WithdrawalViewModel(navigationService, _authService, account, _transactionService);
+                    return new WithdrawalViewModel(navigationService, account, _apiService);
 
                 case ViewType.History:
-                    return new HistoryViewModel(navigationService, account);
+                    return new HistoryViewModel(navigationService, account, _apiService);
 
                 case ViewType.CheckBalance:
                     return new CheckBalanceViewModel(navigationService, account);

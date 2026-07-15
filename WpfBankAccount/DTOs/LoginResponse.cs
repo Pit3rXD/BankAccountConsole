@@ -1,6 +1,6 @@
-﻿namespace BankApp.Api.DTOs
+﻿namespace WpfBankAccount.DTOs
 {
-    public class LoginResponseDto
+    public class LoginResponse
     {
         public string Token { get; set; }
         public int Id { get; set; }

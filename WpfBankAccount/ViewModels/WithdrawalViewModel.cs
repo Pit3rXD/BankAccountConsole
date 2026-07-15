@@ -1,38 +1,35 @@
 ﻿using BankAccountCore;
+using System.Net.Http;
 using System.Windows.Input;
+using WpfBankAccount.DTOs;
+using WpfBankAccount.Interfaces;
 
 namespace WpfBankAccount.ViewModels
 {
     public class WithdrawalViewModel : TransactionViewModelBase
     {
-        private readonly IAuthService _authService;
-        private readonly TransactionService _transactionService;
+        private readonly IApiService _apiService;
         public ICommand WithdrawalCommand { get; }
-        public WithdrawalViewModel(INavigationService navigationService, IAuthService authService, BankAccount account, TransactionService transactionService)
+        public WithdrawalViewModel(INavigationService navigationService, WpfBankAccount.DTOs.BankAccountDto account, IApiService apiService)
             : base(account, navigationService)
         {
-            _authService = authService;
-            _transactionService = transactionService;
-
             WithdrawalCommand = new RelayCommand(ExecuteWithdrawal, CanExecuteWithdrawal);
+            _apiService = apiService;
         }
-        private void ExecuteWithdrawal(object parameter)
+        private async void ExecuteWithdrawal(object parameter)
         {
             try
             {
-                _transactionService.Withdrawal(Account, Amount);
-                _authService.SaveCurrentState();
+                var request = new TransactionRequest { Amount = Amount, TransactionType = TransactionType.Withdrawal };
+                var response = await _apiService.CreateTransactionAsync(request, Account.Id);
+                Account.Balance = response.BalanceAfter;
                 OnPropertyChanged(nameof(Balance));
                 ErrorMessage = string.Empty;
                 Amount = 0;
             }
-            catch(ArgumentException ex)
+            catch(HttpRequestException ex)
             {
-                ErrorMessage = ex.Message;
-            }
-            catch(InsufficientFundsException ex)
-            {
-                ErrorMessage = ex.Message;
+                ErrorMessage = $"Operation was canceled: {ex.Message}";
             }
         }
         private bool CanExecuteWithdrawal(object parameter)
