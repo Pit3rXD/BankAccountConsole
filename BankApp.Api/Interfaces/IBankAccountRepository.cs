@@ -9,6 +9,7 @@ namespace BankApp.Api.Interfaces
         Task<BankAccountEntity?> GetByUsernameAsync(string username);
         Task<IEnumerable<BankAccountEntity>> GetAllAsync();  
         Task<BankAccountEntity> UpdateAsync(BankAccountEntity bankAccountEntity);
+        Task<BankAccountEntity?> GetByAccountNumberAsync(string accountNumber);
         Task<bool> ExistsAsync(int id);
         Task<bool> DeleteAsync(int id);
     }

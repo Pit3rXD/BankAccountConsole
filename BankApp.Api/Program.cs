@@ -26,6 +26,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<BankAccountCore.IAccountNumberGenerator, BankApp.Api.Services.AccountNumberGenerator>();
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 var jwtSecret = builder.Configuration["Jwt:Secret"]!;
 var jwtIssuer = builder.Configuration["Jwt:Issuer"]!;
 var jwtAudience = builder.Configuration["Jwt:Audience"]!;
