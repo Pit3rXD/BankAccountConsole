@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BankAccountCore;
 using BankApp.Api.DTOs;
+using BankApp.Api.Exceptions;
 using BankApp.Api.Interfaces;
 using BankApp.Api.Models;
 
@@ -96,11 +97,11 @@ namespace BankApp.Api.Services
             }
             if (sendersAccount.Balance < amount)
             {
-                throw new BankApp.Api.Exceptions.InsufficientFundsException();
+                throw new InsufficientFundsException();
             }
             if (recipientsAccount.AccountNumber == sendersAccount.AccountNumber)
             {
-                throw new ArgumentException($"You can not transfer to your self");
+                throw new TransferToOneselfException();
             }
 
             var result = await _unitOfWork.ExecuteInTransactionAsync(async () =>
