@@ -10,7 +10,7 @@ namespace WpfBankAccount.ViewModels
     {
         private readonly IApiService _apiService;
         public ICommand WithdrawalCommand { get; }
-        public WithdrawalViewModel(INavigationService navigationService, WpfBankAccount.DTOs.BankAccountDto account, IApiService apiService)
+        public WithdrawalViewModel(INavigationService navigationService, BankAccountDto account, IApiService apiService)
             : base(account, navigationService)
         {
             WithdrawalCommand = new RelayCommand(ExecuteWithdrawal, CanExecuteWithdrawal);
