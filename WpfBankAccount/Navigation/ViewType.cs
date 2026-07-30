@@ -8,6 +8,7 @@
         Withdrawal,
         History,
         CheckBalance,
-        Register
+        Register,
+        Transfer
     }
 }

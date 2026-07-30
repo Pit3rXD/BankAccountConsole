@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Net.Http;
+using System.Windows.Input;
 using WpfBankAccount.DTOs;
 using WpfBankAccount.Interfaces;
 
@@ -24,6 +25,23 @@ namespace WpfBankAccount.ViewModels
             {
                 _recipientAccountNumber = value;
                 OnPropertyChanged();
+            }
+        }
+        private async void ExecuteTransfer(object parameter)
+        {
+            try
+            {
+                var request = new TransferRequest { Amount = Amount, RecipientAccountNumber = _recipientAccountNumber };
+                var response = await _apiService.CreateTransferAsync(request, Account.Id);
+                Account.Balance = response.BalanceAfter;
+                OnPropertyChanged(nameof(Balance));
+                ErrorMessage = string.Empty;
+                Amount = 0;
+                RecipientAccountNumber = string.Empty;
+            }
+            catch (HttpRequestException ex)
+            {
+                ErrorMessage = $"Transfer failed: {ex.Message}";
             }
         }
         private bool CanExecuteTransfer(object parameter)

@@ -33,5 +33,9 @@
             <views:RegisterView/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:TransferViewModel}">
+            <views:TransferView/>
+        </DataTemplate>
+
     </Application.Resources>
 </Application>

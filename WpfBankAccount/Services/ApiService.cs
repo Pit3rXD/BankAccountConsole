@@ -29,6 +29,13 @@ namespace WpfBankAccount.Services
             return transactionRequest;
         }
 
+        public async Task<TransferResponse> CreateTransferAsync(TransferRequest request, int bankAccountId)
+        {
+            var transferRequest = await RequestAsync<TransferResponse>(HttpMethod.Post,
+                $"api/bankaccount/{bankAccountId}/transactions/transfer", request);
+            return transferRequest;
+        }
+
         public async Task<IEnumerable<TransactionResponse>> GetAllByAccountIdAsync(int bankAccountId)
         {
             var getAll = await RequestAsync<IEnumerable<TransactionResponse>>(HttpMethod.Get, $"api/bankaccount/{bankAccountId}/transactions");
@@ -57,7 +64,7 @@ namespace WpfBankAccount.Services
             var content = new StringContent(json, encoding: System.Text.Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/auth/register", content);
             var responseBody = await response.Content.ReadAsStringAsync();
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 throw new HttpRequestException(responseBody);
             }
@@ -81,7 +88,7 @@ namespace WpfBankAccount.Services
 
             var response = await _httpClient.SendAsync(request);
             var responseBody = await response.Content.ReadAsStringAsync();
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 throw new HttpRequestException(responseBody);
             }

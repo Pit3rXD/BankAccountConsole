@@ -47,6 +47,9 @@ namespace WpfBankAccount.ViewModels
                 case ViewType.CheckBalance:
                     return new CheckBalanceViewModel(navigationService, account);
 
+                case ViewType.Transfer:
+                    return new TransferViewModel(navigationService, account, _apiService);
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null);
             }

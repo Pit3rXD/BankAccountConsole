@@ -27,9 +27,9 @@ namespace WpfBankAccount.ViewModels
                 ErrorMessage = string.Empty;
                 Amount = 0;
             }
-            catch(HttpRequestException ex)
+            catch (HttpRequestException ex)
             {
-                ErrorMessage = $"Operation was canceled: {ex.Message}";
+                ErrorMessage = $"Withdrawal failed: {ex.Message}";
             }
         }
         private bool CanExecuteWithdrawal(object parameter)
