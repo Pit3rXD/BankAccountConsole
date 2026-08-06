@@ -25,8 +25,11 @@ namespace WpfBankAccount.ViewModels
             {
                 _recipientAccountNumber = value;
                 OnPropertyChanged();
+                Validate();
             }
         }
+
+
         private async void ExecuteTransfer(object parameter)
         {
             try
@@ -46,8 +49,28 @@ namespace WpfBankAccount.ViewModels
         }
         private bool CanExecuteTransfer(object parameter)
         {
-            return Amount > 0 && !string.IsNullOrWhiteSpace(_recipientAccountNumber) && _recipientAccountNumber != AccountNumber;
+            return Amount > 0 && !string.IsNullOrWhiteSpace(_recipientAccountNumber)
+                && _recipientAccountNumber != AccountNumber && Amount <= Balance;
 
+        }
+
+        private void Validate()
+        {
+            if (AccountNumber == RecipientAccountNumber)
+            {
+                ErrorMessage = "You are transferring funds to yourself";
+                return;
+            }
+            if (Amount > Balance)
+            {
+                ErrorMessage = "Insufficient funds";
+                return;
+            }
+        }
+
+        protected override void OnAmountChanged()
+        {
+            Validate();
         }
     }
 }

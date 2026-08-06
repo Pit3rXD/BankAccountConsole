@@ -2,9 +2,7 @@
 using BankApp.Api.DTOs;
 using BankApp.Api.Exceptions;
 using BankApp.Api.Interfaces;
-using BankApp.Api.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankApp.Api.Controllers

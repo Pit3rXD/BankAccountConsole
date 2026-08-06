@@ -95,13 +95,13 @@ namespace BankApp.Api.Services
             {
                 throw new ArgumentException($"Recipients account with number: {recipientAccountNumber} don't exists");
             }
-            if (sendersAccount.Balance < amount)
-            {
-                throw new InsufficientFundsException();
-            }
             if (recipientsAccount.AccountNumber == sendersAccount.AccountNumber)
             {
                 throw new TransferToOneselfException();
+            }
+            if (sendersAccount.Balance < amount)
+            {
+                throw new InsufficientFundsException();
             }
 
             var result = await _unitOfWork.ExecuteInTransactionAsync(async () =>

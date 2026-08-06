@@ -18,7 +18,7 @@ namespace WpfBankAccount.ViewModels
             {
                 _amount = value;
                 OnPropertyChanged();
-                ErrorMessage = string.Empty;
+                OnAmountChanged();
             }
         }
         public string ErrorMessage
@@ -36,5 +36,10 @@ namespace WpfBankAccount.ViewModels
         {
         }
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
+
+        protected virtual void OnAmountChanged()
+        {
+            ErrorMessage = string.Empty;
+        }
     }
 }

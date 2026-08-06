@@ -86,6 +86,7 @@ namespace WpfBankAccount.Services
                 request.Content = content;
             }
 
+            
             var response = await _httpClient.SendAsync(request);
             var responseBody = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
