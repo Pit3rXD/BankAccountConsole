@@ -13,7 +13,7 @@ The project was built to practice and demonstrate knowledge of full-stack C# dev
 - Account balance view with account number and owner details
 - Deposit and withdrawal, with server-side insufficient-funds validation surfaced back to the UI
 - Transaction history with date, type, amount and running balance
-- Transfer between accounts *(in progress)*
+- Transfer between accounts
 
 ## Architecture
 
@@ -72,8 +72,8 @@ Most API endpoints require a JWT: call `POST /api/auth/login` in Swagger, copy t
 - [x] BCrypt password hashing
 - [x] JWT authentication
 - [x] Connect WPF client to REST API
-- [ ] Remove legacy `BankAccountCore` local/JSON storage now that it's unused
-- [ ] Transfers between accounts
+- [x] Retire legacy JSON storage code from `BankAccountCore` (kept as a small shared library for `TransactionType` and `IAccountNumberGenerator`)
+- [x] Transfers between accounts
 - [ ] Automated tests
 
 ## Author
