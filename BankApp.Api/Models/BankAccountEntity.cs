@@ -9,5 +9,6 @@
         public decimal Balance { get; set; }
         public string Password { get; set; } = string.Empty;
         public List<TransactionEntity> Transactions { get; set; } = new List<TransactionEntity>();
+        public byte[]? RowVersion { get; set; }
     }
 }

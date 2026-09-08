@@ -69,6 +69,10 @@ namespace BankApp.Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
+            catch (ConcurrentTransferException ex)
+            {
+                return Conflict(ex.Message);
+            }
             return CreatedAtAction(nameof(GetAllByAccountId), new { bankAccountId = bankAccountId }, result);
         }
 

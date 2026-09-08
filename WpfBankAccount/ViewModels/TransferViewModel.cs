@@ -66,6 +66,10 @@ namespace WpfBankAccount.ViewModels
                 ErrorMessage = "Insufficient funds";
                 return;
             }
+            else
+            {
+                ErrorMessage = string.Empty;
+            }
         }
 
         protected override void OnAmountChanged()
