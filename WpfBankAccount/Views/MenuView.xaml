@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0" Width="250" Height="360">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Width="250" Height="430">
 
             <TextBlock Text="Menu" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
@@ -20,6 +20,7 @@
             <Button Content="Check balance" Margin="0,0,0,10" Height="40" Command="{Binding CheckBalanceCommand}"/>
             <Button Content="Deposit" Margin="0,0,0,10" Height="40" Command="{Binding DepositCommand}"/>
             <Button Content="Withdraw" Margin="0,0,0,10" Height="40" Command="{Binding WithdrawalCommand}"/>
+            <Button Content="Transfer" Margin="0,0,0,10" Height="40" Command="{Binding TransferCommand}"/>
             <Button Content="Transaction History" Margin="0,0,0,10" Height="40" Command="{Binding HistoryCommand}"/>
             <Button Content="Logout" Height="40" Command="{Binding LogoutCommand}"/>
 

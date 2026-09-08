@@ -46,6 +46,11 @@ namespace BankApp.Api.Repositories
             return await _context.AccountEntities.ToListAsync();
         }
 
+        public async Task<BankAccountEntity?> GetByAccountNumberAsync(string accountNumber)
+        {
+            return await _context.AccountEntities.FirstOrDefaultAsync(a => a.AccountNumber == accountNumber);
+        }
+
         public async Task<BankAccountEntity?> GetByIdAsync(int id)
         {
             return await _context.AccountEntities.FindAsync(id);

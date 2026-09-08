@@ -10,7 +10,7 @@ namespace WpfBankAccount.ViewModels
     {
         private readonly IApiService _apiService;
         public ICommand WithdrawalCommand { get; }
-        public WithdrawalViewModel(INavigationService navigationService, WpfBankAccount.DTOs.BankAccountDto account, IApiService apiService)
+        public WithdrawalViewModel(INavigationService navigationService, BankAccountDto account, IApiService apiService)
             : base(account, navigationService)
         {
             WithdrawalCommand = new RelayCommand(ExecuteWithdrawal, CanExecuteWithdrawal);
@@ -27,9 +27,9 @@ namespace WpfBankAccount.ViewModels
                 ErrorMessage = string.Empty;
                 Amount = 0;
             }
-            catch(HttpRequestException ex)
+            catch (HttpRequestException ex)
             {
-                ErrorMessage = $"Operation was canceled: {ex.Message}";
+                ErrorMessage = $"Withdrawal failed: {ex.Message}";
             }
         }
         private bool CanExecuteWithdrawal(object parameter)

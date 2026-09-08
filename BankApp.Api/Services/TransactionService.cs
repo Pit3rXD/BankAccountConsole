@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BankAccountCore;
 using BankApp.Api.DTOs;
+using BankApp.Api.Exceptions;
 using BankApp.Api.Interfaces;
 using BankApp.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankApp.Api.Services
 {
@@ -11,12 +13,15 @@ namespace BankApp.Api.Services
         private readonly IBankAccountRepository _bankRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public TransactionService(IBankAccountRepository bankRepository, ITransactionRepository transactionRepository, IMapper mapper)
+        public TransactionService(IBankAccountRepository bankRepository, ITransactionRepository transactionRepository,
+            IMapper mapper, IUnitOfWork unitOfWork)
         {
             _bankRepository = bankRepository;
             _transactionRepository = transactionRepository;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
         public async Task<TransactionDto> DepositAsync(decimal amount, int bankAccountId)
         {
@@ -25,7 +30,7 @@ namespace BankApp.Api.Services
             {
                 throw new ArgumentException($"Account with Id {bankAccountId} don't exists");
             }
-            
+
             account.Balance += amount;
             await _bankRepository.UpdateAsync(account);
 
@@ -47,10 +52,10 @@ namespace BankApp.Api.Services
             var account = await _bankRepository.GetByIdAsync(bankAccountId);
             if (account == null)
             {
-                throw new ArgumentException($"Account with Id {bankAccountId} don't exists"); 
+                throw new ArgumentException($"Account with Id {bankAccountId} don't exists");
             }
-            
-            if(account.Balance < amount)
+
+            if (account.Balance < amount)
             {
                 throw new BankApp.Api.Exceptions.InsufficientFundsException();
             }
@@ -69,13 +74,81 @@ namespace BankApp.Api.Services
             await _transactionRepository.CreateAsync(transactionEntity);
             return _mapper.Map<TransactionDto>(transactionEntity);
         }
-        
+
         public async Task<IEnumerable<TransactionDto>> GetAllByAccountIdAsync(int accountId)
         {
             var transaction = await _transactionRepository.GetAllByAccountIdAsync(accountId);
             var getAll = _mapper.Map<IEnumerable<TransactionDto>>(transaction);
 
             return getAll;
+        }
+
+        public async Task<TransactionDto> TransferAsync(decimal amount, int bankAccountId, string recipientAccountNumber)
+        {
+            var sendersAccount = await _bankRepository.GetByIdAsync(bankAccountId);
+            if (sendersAccount == null)
+            {
+                throw new ArgumentException($"Account with Id {bankAccountId} don't exists");
+            }
+
+            var recipientsAccount = await _bankRepository.GetByAccountNumberAsync(recipientAccountNumber);
+            if (recipientsAccount == null)
+            {
+                throw new ArgumentException($"Recipients account with number: {recipientAccountNumber} don't exists");
+            }
+            if (recipientsAccount.AccountNumber == sendersAccount.AccountNumber)
+            {
+                throw new TransferToOneselfException();
+            }
+            if (sendersAccount.Balance < amount)
+            {
+                throw new InsufficientFundsException();
+            }
+
+            try
+            {
+                var result = await _unitOfWork.ExecuteInTransactionAsync(async () =>
+                {
+                    var transferId = Guid.NewGuid();
+
+                    sendersAccount.Balance -= amount;
+                    recipientsAccount.Balance += amount;
+                    await _bankRepository.UpdateAsync(sendersAccount);
+                    await _bankRepository.UpdateAsync(recipientsAccount);
+
+                    var senderTransactionEntity = new TransactionEntity
+                    {
+                        TransferId = transferId,
+                        BankAccountId = bankAccountId,
+                        Amount = amount,
+                        Date = DateTime.UtcNow,
+                        Type = TransactionType.TransferOut,
+                        CounterpartyAccountNumber = recipientsAccount.AccountNumber,
+                        BalanceAfter = sendersAccount.Balance
+                    };
+                    await _transactionRepository.CreateAsync(senderTransactionEntity);
+
+                    var recipientsTransferEntity = new TransactionEntity
+                    {
+                        TransferId = transferId,
+                        BankAccountId = recipientsAccount.Id,
+                        Amount = amount,
+                        Date = DateTime.UtcNow,
+                        Type = TransactionType.TransferIn,
+                        CounterpartyAccountNumber = sendersAccount.AccountNumber,
+                        BalanceAfter = recipientsAccount.Balance
+                    };
+                    await _transactionRepository.CreateAsync(recipientsTransferEntity);
+
+                    return _mapper.Map<TransactionDto>(senderTransactionEntity);
+                });
+
+                return result;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new ConcurrentTransferException();
+            }
         }
     }
 }

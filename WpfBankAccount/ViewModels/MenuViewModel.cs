@@ -16,6 +16,7 @@ namespace WpfBankAccount.ViewModels
         public ICommand DepositCommand { get; }
         public ICommand WithdrawalCommand { get; }
         public ICommand HistoryCommand { get; }
+        public ICommand TransferCommand { get; }
 
         public MenuViewModel(INavigationService navigationService, BankAccountDto loggedInAccount)
         {
@@ -26,6 +27,7 @@ namespace WpfBankAccount.ViewModels
             DepositCommand = new RelayCommand(Deposit, CanDeposit);
             WithdrawalCommand = new RelayCommand(Withdrawal, CanWithdrawal);
             HistoryCommand = new RelayCommand(History, CanHistory);
+            TransferCommand = new RelayCommand(Transfer, CanTransfer);
         }
 
         private void Logout(object? parameter)
@@ -65,11 +67,19 @@ namespace WpfBankAccount.ViewModels
         {
             _navigationService.NavigateTo(ViewType.History, LoggedInAccount);
         }
-        private bool  CanHistory(object parameter)
+        private bool CanHistory(object parameter)
         {
             return true;
         }
-        
+        private void Transfer(object parameter)
+        {
+            _navigationService.NavigateTo(ViewType.Transfer, LoggedInAccount);
+        }
+        private bool CanTransfer(object parameter)
+        {
+            return true;
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

@@ -4,8 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfBankAccount.Views"
+             xmlns:converters="clr-namespace:WpfBankAccount.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:TransactionDirectionConverter x:Key="DirectionConverter"/>
+    </UserControl.Resources>
+
     <Grid>
 
         <Grid.RowDefinitions>
@@ -47,7 +53,7 @@
                    Grid.Row="2" 
                    Grid.Column="0"
                    Text="Account Number: ">
-            
+
         </TextBlock>
 
 
@@ -82,7 +88,16 @@
                 <DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
                 <DataGridTextColumn Header="Amount" Binding="{Binding Amount}"/>
                 <DataGridTextColumn Header="Balance" Binding="{Binding BalanceAfter}"/>
+                <DataGridTextColumn Header="From/To">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource DirectionConverter}">
+                            <Binding Path="Type"/>
+                            <Binding Path="CounterpartyAccountNumber"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
             </DataGrid.Columns>
+
         </DataGrid>
 
         <!--Back button-->

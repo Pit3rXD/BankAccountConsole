@@ -1,5 +1,6 @@
 ﻿using BankAccountCore;
 using BankApp.Api.DTOs;
+using BankApp.Api.Exceptions;
 using BankApp.Api.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,17 +34,44 @@ namespace BankApp.Api.Controllers
                     return NotFound(ex.Message);
                 }
             }
-            
+
             else
             {
                 try
                 {
                     result = await _transactionService.WithdrawalAsync(dto.Amount, bankAccountId);
                 }
-                catch (BankApp.Api.Exceptions.InsufficientFundsException ex)
+                catch (InsufficientFundsException ex)
                 {
                     return BadRequest(ex.Message);
                 }
+            }
+            return CreatedAtAction(nameof(GetAllByAccountId), new { bankAccountId = bankAccountId }, result);
+        }
+
+        [HttpPost("transfer")]
+        public async Task<IActionResult> Transfer(int bankAccountId, [FromBody] TransferDto dto)
+        {
+            TransactionDto result;
+            try
+            {
+                result = await _transactionService.TransferAsync(dto.Amount, bankAccountId, dto.RecipientAccountNumber);
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (InsufficientFundsException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (TransferToOneselfException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ConcurrentTransferException ex)
+            {
+                return Conflict(ex.Message);
             }
             return CreatedAtAction(nameof(GetAllByAccountId), new { bankAccountId = bankAccountId }, result);
         }
